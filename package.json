@@ -53,7 +53,8 @@
   "scripts": {
     "prettier:check": "prettier -c .",
     "prettier:fix": "prettier -w .",
-    "install-dependencies": "node scripts/install-dependencies.js"
+    "install-dependencies": "node scripts/install-dependencies.js",
+    "build": "node scripts/build.js"
   },
   "devDependencies": {
     "esbuild": "0.17.19",
