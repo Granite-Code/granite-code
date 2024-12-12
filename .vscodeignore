@@ -1,0 +1,12 @@
+build
+continue
+node_modules
+package-dependencies
+scripts
+tsconfig.json
+.gitmodules
+.gitignore
+.prettierignore
+.prettierrc
+.vscode
+**/*.ts

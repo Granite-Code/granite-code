@@ -17,6 +17,16 @@
       "runOptions": {
         "runOn": "folderOpen"
       }
+    },
+
+    {
+      "label": "Install dependencies",
+      "type": "npm",
+      "script": "install-dependencies",
+      "problemMatcher": [],
+      "group": {
+        "kind": "build"
+      }
     }
   ]
 }
