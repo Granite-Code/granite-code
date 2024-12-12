@@ -1,0 +1,56 @@
+{
+  "name": "granite-code",
+  "author": "Red Hat, Inc",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/granite-code/granite-code"
+  },
+  "extensionKind": [
+    "ui",
+    "workspace"
+  ],
+  "bugs": {
+    "url": "https://github.com/granite-code/granite-code/issues"
+  },
+  "qna": "https://github.com/granite-code/granite-code/issues/new/choose",
+  "license": "Apache-2.0",
+  "displayName": "Granite.Code - Enhanced development with Granite model AI",
+  "pricing": "Free",
+  "description": "Granite model assisted code development",
+  "publisher": "redhat",
+  "engines": {
+    "vscode": "^1.70.0",
+    "node": ">=20.11.0"
+  },
+  "engine-strict": true,
+  "galleryBanner": {
+    "color": "#1E1E1E",
+    "theme": "dark"
+  },
+  "categories": [
+    "AI",
+    "Chat",
+    "Programming Languages",
+    "Education",
+    "Machine Learning",
+    "Snippets"
+  ],
+  "keywords": [
+    "granite",
+    "continuedev",
+    "continue",
+    "chatgpt",
+    "github",
+    "copilot",
+    "ai"
+  ],
+  "activationEvents": [
+    "onStartupFinished",
+    "onView:continueGUIView"
+  ],
+  "main": "./out/index.js",
+  "devDependencies": {
+    "esbuild": "^0.25.0"
+  }
+}
