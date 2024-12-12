@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "module": "Node16",
+        "target": "ES2022",
+        "lib": [
+            "ES2022"
+        ],
+        "sourceMap": true,
+        "rootDir": ".",
+        "jsx": "react",
+        "esModuleInterop": true,
+        "strict": true,
+        "outDir": "./build/dist",
+        "paths": {
+            "core/*": ["continue/core/*"],
+            "activation/*": ["continue/extensions/vscode/src/activation/*"]
+        }
+    },
+    "include": [
+        "./extension.ts"
+    ],
+    "exclude": [
+        "build",
+        "node_modules"
+    ]
+}
