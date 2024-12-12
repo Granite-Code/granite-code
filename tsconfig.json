@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "esModuleInterop": true,
+    "lib": ["ES2022"],
+    "jsx": "react",
+    "module": "Node16",
+    "strict": true,
+    "sourceMap": true,
+    "target": "ES2022"
+  },
+  "include": ["./extension.ts"],
+  "exclude": ["build", "out", "node_modules"]
+}
