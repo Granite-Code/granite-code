@@ -1,0 +1,5 @@
+[submodule "continue"]
+	path = continue
+	url = https://github.com/granite-code/continue-for-granite
+	branch = integration
+	ignore = dirty
