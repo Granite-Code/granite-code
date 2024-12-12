@@ -51,7 +51,8 @@
   ],
   "main": "./build/dist/index.js",
   "scripts": {
-    "install-dependencies": "npm install"
+    "install-dependencies": "npm install",
+    "build": "node scripts/build.js"
   },
   "devDependencies": {
     "esbuild": "0.17.19"
