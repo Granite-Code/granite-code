@@ -52,10 +52,14 @@
   "main": "./out/index.js",
   "scripts": {
     "prettier:check": "prettier -c .",
-    "prettier:fix": "prettier -w ."
+    "prettier:fix": "prettier -w .",
+    "install-dependencies": "node scripts/install-dependencies.js"
   },
   "devDependencies": {
     "esbuild": "0.17.19",
     "prettier": "^3.4.2"
+  },
+  "dependencies": {
+    "glob": "^11.0.1"
   }
 }
