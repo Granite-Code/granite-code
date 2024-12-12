@@ -50,6 +50,9 @@
     "onView:continueGUIView"
   ],
   "main": "./build/dist/index.js",
+  "scripts": {
+    "install-dependencies": "npm install"
+  },
   "devDependencies": {
     "esbuild": "0.17.19"
   },
