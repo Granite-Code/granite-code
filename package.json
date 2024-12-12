@@ -52,12 +52,17 @@
   "main": "./out/index.js",
   "scripts": {
     "check-coding-style": "prettier -c .",
-    "fix-coding-style": "prettier -w ."
+    "fix-coding-style": "prettier -w .",
+    "install-dependencies": "node scripts/install-dependencies.js"
   },
   "devDependencies": {
     "esbuild": "^0.25.0",
+    "minimatch": "^10.0.0",
     "prettier": "^3.4.2",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "tailwindcss": "^4.0.9"
+  },
+  "dependencies": {
+    "glob": "^11.0.1"
   }
 }

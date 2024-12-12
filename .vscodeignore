@@ -1,0 +1,16 @@
+build
+continue
+node_modules
+node_modules:darwin-arm64
+node_modules:darwin-x64
+node_modules:linux-arm64
+node_modules:linux-x64
+node_modules:win32-x64
+scripts
+tsconfig.json
+.gitmodules
+.gitignore
+.prettierignore
+.prettierrc
+.vscode
+**/*.ts
