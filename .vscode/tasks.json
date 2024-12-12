@@ -27,6 +27,17 @@
       "group": {
         "kind": "build"
       }
+    },
+
+    {
+      "label": "Build extension",
+      "type": "npm",
+      "script": "build",
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
     }
   ]
 }

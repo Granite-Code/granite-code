@@ -53,7 +53,8 @@
   "scripts": {
     "check-coding-style": "prettier -c .",
     "fix-coding-style": "prettier -w .",
-    "install-dependencies": "node scripts/install-dependencies.js"
+    "install-dependencies": "node scripts/install-dependencies.js",
+    "build": "node scripts/build.js"
   },
   "devDependencies": {
     "esbuild": "^0.25.0",
