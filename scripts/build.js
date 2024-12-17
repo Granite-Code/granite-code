@@ -1,8 +1,9 @@
 const esbuild = require("esbuild");
 
-const LOG_LEVEL = 'debug';
+const LOG_LEVEL = 'info';
 const MODULE_BUNDLE_BLOCK_LIST = [
     'esbuild',
+    'jsdom',
     'vscode',
 ];
 
