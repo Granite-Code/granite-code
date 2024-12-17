@@ -1,0 +1,24 @@
+{
+  "version": "0.2.0",
+  "compounds": [],
+  "configurations": [
+    {
+      "name": "Launch extension",
+      "type": "extensionHost",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "args": [
+        "${workspaceFolder}/continue/manual-testing-sandbox",
+        "${workspaceFolder}/continue/manual-testing-sandbox/test.js",
+        "--extensionDevelopmentPath=${workspaceFolder}"
+      ],
+      "pauseForSourceMap": false,
+      "outFiles": ["${workspaceFolder}/out/index.js"],
+      "preLaunchTask": "Build extension",
+      "env": {
+        "CONTINUE_GLOBAL_DIR": "${workspaceFolder}/continue/extensions/.continue-debug",
+        "CONTROL_PLANE_ENV": "local"
+      }
+    }
+  ]
+}
