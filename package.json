@@ -73,5 +73,542 @@
   },
   "dependencies": {
     "glob": "^11.0.1"
+  },
+  "contributes": {
+    "languages": [
+      {
+        "filenames": [
+          "config.json",
+          ".continuerc.json"
+        ],
+        "id": "jsonc"
+      },
+      {
+        "id": "promptLanguage",
+        "extensions": [
+          ".prompt"
+        ],
+        "aliases": [
+          "Prompt Language"
+        ],
+        "configuration": "./prompt-file-language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "promptLanguage",
+        "scopeName": "source.prompt",
+        "path": "./media/prompt.tmLanguage.json"
+      }
+    ],
+    "configuration": {
+      "title": "Granite.Code",
+      "properties": {
+        "granite.telemetryEnabled": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Granite.Code collects anonymous usage data, cleaned of PII, to help us improve the product for our users. Read more  at [continue.dev › Telemetry](https://docs.continue.dev/telemetry)."
+        },
+        "granite.enableContinueHub": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable Granite.Code Hub (internal)"
+        },
+        "granite.showInlineTip": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show inline suggestion to use the Granite.Code keyboard shortcuts (e.g. \"Cmd/Ctrl L to select code, Cmd/Ctrl I to edit\")."
+        },
+        "granite.disableQuickFix": {
+          "type": "boolean",
+          "default": false,
+          "description": "Disable the quick fix feature."
+        },
+        "granite.enableQuickActions": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "Enable the experimental Quick Actions feature. Read our walkthrough to learn about configuration and how to share feedback: [continue.dev › Walkthrough: Quick Actions (experimental)](https://docs.continue.dev/features/quick-actions)"
+        },
+        "granite.enableTabAutocomplete": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Enable Granite.Code's tab autocomplete feature. Read our walkthrough to learn about configuration and how to share feedback: [continue.dev › Walkthrough: Tab Autocomplete (beta)](https://docs.continue.dev/features/tab-autocomplete)"
+        },
+        "granite.pauseTabAutocompleteOnBattery": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "Pause Granite.Code's tab autocomplete feature when your battery is low."
+        },
+        "granite.pauseCodebaseIndexOnStart": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "Pause Granite.Code's codebase index on start."
+        },
+        "granite.remoteConfigServerUrl": {
+          "type": "string",
+          "default": null,
+          "markdownDescription": "If your team is set up to use shared configuration, enter the server URL here and your user token below to enable automatic syncing."
+        },
+        "granite.userToken": {
+          "type": "string",
+          "default": null,
+          "markdownDescription": "If your team is set up to use shared configuration, enter your user token here and your server URL above to enable automatic syncing."
+        },
+        "granite.remoteConfigSyncPeriod": {
+          "type": "number",
+          "default": 60,
+          "description": "The period of time in minutes between automatic syncs."
+        },
+        "granite.localModelSize": {
+          "type": "string",
+          "enum": [
+            "small",
+            "large"
+          ],
+          "default": "large",
+          "description": "Whether to use a small or large local model. Small models are faster but less accurate."
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "granite.applyCodeFromChat",
+        "category": "Granite.Code",
+        "title": "Apply code from chat",
+        "group": "Granite.Code"
+      },
+      {
+        "command": "granite.acceptDiff",
+        "category": "Granite.Code",
+        "title": "Accept Diff",
+        "group": "Granite.Code"
+      },
+      {
+        "command": "granite.rejectDiff",
+        "category": "Granite.Code",
+        "title": "Reject Diff",
+        "group": "Granite.Code",
+        "icon": "$(stop)"
+      },
+      {
+        "command": "granite.acceptVerticalDiffBlock",
+        "category": "Granite.Code",
+        "title": "Accept Vertical Diff Block",
+        "group": "Granite.Code"
+      },
+      {
+        "command": "granite.rejectVerticalDiffBlock",
+        "category": "Granite.Code",
+        "title": "Reject Vertical Diff Block",
+        "group": "Granite.Code"
+      },
+      {
+        "command": "granite.focusEdit",
+        "category": "Granite.Code",
+        "title": "Generate Code",
+        "group": "Granite.Code"
+      },
+      {
+        "command": "granite.focusContinueInput",
+        "category": "Granite.Code",
+        "title": "Add Highlighted Code to Context and Clear Chat",
+        "group": "Granite.Code"
+      },
+      {
+        "command": "granite.focusContinueInputWithoutClear",
+        "category": "Granite.Code",
+        "title": "Add Highlighted Code to Context",
+        "group": "Granite.Code"
+      },
+      {
+        "command": "granite.debugTerminal",
+        "category": "Granite.Code",
+        "title": "Debug Terminal",
+        "group": "Granite.Code"
+      },
+      {
+        "command": "granite.exitEditMode",
+        "category": "Granite.Code",
+        "title": "Exit Edit Mode",
+        "group": "Granite.Code"
+      },
+      {
+        "command": "granite.toggleFullScreen",
+        "category": "Granite.Code",
+        "title": "Open in new window",
+        "icon": "$(link-external)",
+        "group": "Granite.Code"
+      },
+      {
+        "command": "granite.openConfigPage",
+        "category": "Granite.Code",
+        "title": "Open Settings",
+        "icon": "$(gear)",
+        "group": "Granite.Code"
+      },
+      {
+        "command": "granite.toggleTabAutocompleteEnabled",
+        "category": "Granite.Code",
+        "title": "Toggle Autocomplete Enabled",
+        "group": "Granite.Code"
+      },
+      {
+        "command": "granite.selectFilesAsContext",
+        "category": "Granite.Code",
+        "title": "Select Files as Context",
+        "group": "Granite.Code"
+      },
+      {
+        "command": "granite.newSession",
+        "category": "Granite.Code",
+        "title": "New Session",
+        "icon": "$(add)",
+        "group": "Granite.Code"
+      },
+      {
+        "command": "granite.viewHistory",
+        "category": "Granite.Code",
+        "title": "View History",
+        "icon": "$(history)",
+        "group": "Granite.Code"
+      },
+      {
+        "command": "granite.viewLogs",
+        "category": "Granite.Code",
+        "title": "View History",
+        "group": "Granite.Code"
+      },
+      {
+        "command": "granite.navigateTo",
+        "category": "Granite.Code",
+        "title": "Navigate to a path",
+        "group": "Granite.Code"
+      },
+      {
+        "command": "granite.openMorePage",
+        "category": "Granite.Code",
+        "title": "More",
+        "icon": "$(ellipsis)",
+        "group": "Granite.Code"
+      },
+      {
+        "command": "granite.writeCommentsForCode",
+        "category": "Granite.Code",
+        "title": "Write Comments for this Code",
+        "group": "Granite.Code"
+      },
+      {
+        "command": "granite.writeDocstringForCode",
+        "category": "Granite.Code",
+        "title": "Write a Docstring for this Code",
+        "group": "Granite.Code"
+      },
+      {
+        "command": "granite.fixCode",
+        "category": "Granite.Code",
+        "title": "Fix this Code",
+        "group": "Granite.Code"
+      },
+      {
+        "command": "granite.optimizeCode",
+        "category": "Granite.Code",
+        "title": "Optimize this Code",
+        "group": "Granite.Code"
+      },
+      {
+        "command": "granite.fixGrammar",
+        "category": "Granite.Code",
+        "title": "Fix Grammar / Spelling",
+        "group": "Granite.Code"
+      },
+      {
+        "command": "granite.codebaseForceReIndex",
+        "category": "Granite.Code",
+        "title": "Codebase Force Re-Index",
+        "group": "Granite.Code"
+      },
+      {
+        "command": "granite.rebuildCodebaseIndex",
+        "category": "Granite.Code",
+        "title": "Rebuild codebase index",
+        "group": "Granite.Code"
+      },
+      {
+        "command": "granite.docsIndex",
+        "category": "Granite.Code",
+        "title": "Docs Index",
+        "group": "Granite.Code"
+      },
+      {
+        "command": "granite.docsReIndex",
+        "category": "Granite.Code",
+        "title": "Docs Force Re-Index",
+        "group": "Granite.Code"
+      },
+      {
+        "command": "granite.focusContinueSessionId",
+        "category": "Granite.Code",
+        "title": "Focus Granite.Code Chat",
+        "group": "Granite.Code"
+      },
+      {
+        "command": "granite.signInToControlPlane",
+        "title": "Sign In",
+        "category": "Granite.Code",
+        "group": "Granite.Code",
+        "icon": "$(account)"
+      },
+      {
+        "command": "granite.openAccountDialog",
+        "title": "Account",
+        "category": "Granite.Code",
+        "group": "Granite.Code",
+        "icon": "$(account)"
+      },
+      {
+        "command": "granite.writeContinueConfig",
+        "title": "Write Continue Config",
+        "category": "Granite.Code",
+        "group": "Granite.Code"
+      },
+      {
+        "command": "granite.setup",
+        "title": "Setup Granite as code assistant",
+        "category": "Granite.Code",
+        "group": "Granite.Code"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "granite.focusContinueInput",
+        "mac": "cmd+l",
+        "key": "ctrl+l"
+      },
+      {
+        "command": "granite.focusContinueInputWithoutClear",
+        "mac": "cmd+shift+l",
+        "key": "ctrl+shift+l"
+      },
+      {
+        "command": "granite.acceptDiff",
+        "mac": "shift+cmd+enter",
+        "key": "shift+ctrl+enter",
+        "when": "granite.diffVisible"
+      },
+      {
+        "command": "granite.rejectDiff",
+        "mac": "shift+cmd+backspace",
+        "key": "shift+ctrl+backspace",
+        "when": "granite.diffVisible"
+      },
+      {
+        "command": "granite.rejectDiff",
+        "mac": "cmd+z",
+        "key": "ctrl+z",
+        "when": "granite.diffVisible"
+      },
+      {
+        "command": "granite.quickEditHistoryUp",
+        "mac": "up",
+        "key": "up",
+        "when": "false && granite.quickEditHistoryFocused"
+      },
+      {
+        "command": "granite.quickEditHistoryDown",
+        "mac": "down",
+        "key": "down",
+        "when": "false && granite.quickEditHistoryFocused"
+      },
+      {
+        "command": "granite.acceptVerticalDiffBlock",
+        "mac": "alt+cmd+y",
+        "key": "alt+ctrl+y"
+      },
+      {
+        "command": "granite.rejectVerticalDiffBlock",
+        "mac": "alt+cmd+n",
+        "key": "alt+ctrl+n"
+      },
+      {
+        "command": "granite.focusEdit",
+        "title": "Edit code with natural language",
+        "mac": "cmd+i",
+        "key": "ctrl+i"
+      },
+      {
+        "command": "granite.focusEditWithoutClear",
+        "mac": "cmd+shift+i",
+        "key": "ctrl+shift+i"
+      },
+      {
+        "command": "granite.exitEditMode",
+        "mac": "escape",
+        "key": "escape",
+        "when": "granite.inEditMode && editorFocus"
+      },
+      {
+        "command": "granite.debugTerminal",
+        "mac": "cmd+shift+r",
+        "key": "ctrl+shift+r"
+      },
+      {
+        "command": "granite.toggleFullScreen",
+        "mac": "cmd+k cmd+m",
+        "key": "ctrl+k ctrl+m",
+        "when": "!terminalFocus"
+      },
+      {
+        "command": "granite.toggleTabAutocompleteEnabled",
+        "mac": "cmd+k cmd+a",
+        "key": "ctrl+k ctrl+a",
+        "when": "!terminalFocus"
+      },
+      {
+        "command": "granite.applyCodeFromChat",
+        "mac": "alt+a",
+        "key": "alt+a"
+      }
+    ],
+    "submenus": [
+      {
+        "id": "granite.continueSubMenu",
+        "label": "Granite.Code"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "granite.focusContinueInput"
+        },
+        {
+          "command": "granite.focusContinueInputWithoutClear"
+        },
+        {
+          "command": "granite.debugTerminal"
+        },
+        {
+          "command": "granite.toggleFullScreen"
+        },
+        {
+          "command": "granite.newSession"
+        }
+      ],
+      "editor/context": [
+        {
+          "submenu": "granite.continueSubMenu",
+          "group": "0_acontinue"
+        }
+      ],
+      "editor/title/run": [
+        {
+          "command": "granite.rejectDiff",
+          "group": "Granite.Code",
+          "when": "granite.streamingDiff"
+        }
+      ],
+      "granite.continueSubMenu": [
+        {
+          "command": "granite.focusContinueInputWithoutClear",
+          "group": "Granite.Code",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "granite.writeCommentsForCode",
+          "group": "Granite.Code",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "granite.writeDocstringForCode",
+          "group": "Granite.Code",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "granite.fixCode",
+          "group": "Granite.Code",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "granite.optimizeCode",
+          "group": "Granite.Code",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "granite.fixGrammar",
+          "group": "Granite.Code",
+          "when": "editorHasSelection && editorLangId == 'markdown'"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "granite.selectFilesAsContext",
+          "group": "1_debug@1"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "granite.newSession",
+          "group": "navigation@1",
+          "when": "view == granite.graniteGUIView"
+        },
+        {
+          "command": "granite.viewHistory",
+          "group": "navigation@2",
+          "when": "view == granite.graniteGUIView"
+        },
+        {
+          "command": "granite.openMorePage",
+          "group": "navigation@6",
+          "when": "view == granite.graniteGUIView"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "granite.newSession",
+          "group": "navigation@1",
+          "when": "activeWebviewPanelId == granite.graniteGUIView"
+        },
+        {
+          "command": "granite.viewHistory",
+          "group": "navigation@2",
+          "when": "activeWebviewPanelId == granite.graniteGUIView"
+        }
+      ],
+      "terminal/context": [
+        {
+          "command": "granite.debugTerminal",
+          "group": "navigation@top"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "continue",
+          "title": "Granite.Code",
+          "icon": "media/sidebar-icon.png"
+        }
+      ]
+    },
+    "views": {
+      "continue": [
+        {
+          "type": "webview",
+          "id": "granite.graniteGUIView",
+          "name": "Granite.Code",
+          "icon": "media/sidebar-icon.png",
+          "visibility": "visible"
+        }
+      ]
+    },
+    "jsonValidation": [
+      {
+        "fileMatch": "**/.continue*/config.json",
+        "url": "./config_schema.json"
+      },
+      {
+        "fileMatch": ".continuerc.json",
+        "url": "./continue_rc_schema.json"
+      }
+    ]
   }
 }
