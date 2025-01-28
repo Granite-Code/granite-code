@@ -14,7 +14,7 @@
       ],
       "pauseForSourceMap": false,
       "outFiles": ["${workspaceFolder}/out/index.js"],
-      "preLaunchTask": "Build extension",
+      "preLaunchTask": "Prelaunch",
       "env": {
         "CONTINUE_GLOBAL_DIR": "${workspaceFolder}/continue/extensions/.continue-debug",
         "CONTROL_PLANE_ENV": "local"
