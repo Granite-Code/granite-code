@@ -30,6 +30,12 @@
     },
 
     {
+      "label": "Prelaunch",
+      "dependsOn": ["Build extension", "Dev GUI"],
+      "dependsOrder": "parallel"
+    },
+
+    {
       "label": "Build extension",
       "type": "npm",
       "script": "build",
@@ -38,6 +44,35 @@
         "kind": "build",
         "isDefault": true
       }
+    },
+
+    // Start the React App for debugging with Vite
+    {
+      "label": "Dev GUI",
+      "type": "shell",
+      "command": "npm",
+      "options": {
+        "cwd": "${workspaceFolder}/continue/gui"
+      },
+      "args": ["run", "dev"],
+      "isBackground": true,
+      "problemMatcher": [
+        {
+          "pattern": [
+            {
+              "regexp": "UNMATCHED(X)(Y)(Z)",
+              "file": 1,
+              "line": 2,
+              "message": 3
+            }
+          ],
+          "background": {
+            "activeOnStart": true,
+            "beginsPattern": "UNMATCHED",
+            "endsPattern": "VITE.*ready"
+          }
+        }
+      ]
     }
   ]
 }
