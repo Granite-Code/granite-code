@@ -59,7 +59,8 @@
     "create-darwin-x64-package": "node scripts/create-package.js --target darwin-x64",
     "create-linux-arm64-package": "node scripts/create-package.js --target linux-arm64",
     "create-linux-x64-package": "node scripts/create-package.js --target linux-x64",
-    "create-win32-x64-package": "node scripts/create-package.js --target win32-x64"
+    "create-win32-x64-package": "node scripts/create-package.js --target win32-x64",
+    "update-package-json": "node scripts/update-package-json.js"
   },
   "devDependencies": {
     "@vscode/vsce": "2.15.0",
