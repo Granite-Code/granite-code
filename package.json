@@ -55,11 +55,16 @@
     "prettier:fix": "prettier -w .",
     "install-dependencies": "node scripts/install-dependencies.js",
     "build": "node scripts/build.js",
+    "package": "node scripts/package.js",
     "update-package-json": "node scripts/update-package-json.js"
   },
   "devDependencies": {
+    "@vscode/vsce": "2.15.0",
     "esbuild": "0.17.19",
-    "prettier": "^3.4.2"
+    "ncp": "^2.0.0",
+    "prettier": "^3.4.2",
+    "rimraf": "^6.0.1",
+    "split2": "^4.2.0"
   },
   "dependencies": {
     "esbuild": "0.17.19",

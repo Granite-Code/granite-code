@@ -1,0 +1,13 @@
+build
+core
+continue
+extension
+node_modules
+scripts
+tsconfig.json
+.gitmodules
+.gitignore
+.prettierignore
+.prettierrc
+.vscode
+**/*.ts
