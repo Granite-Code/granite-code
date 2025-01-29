@@ -30,6 +30,8 @@ function transform(data) {
     let result = data.replace(/(^| )continue\./, "$1granite.");
     result = result.replace(/continueGUI/, "graniteGUI");
     result = result.replace(/\bContinue\b/, "Granite.Code");
+    // An exception - this is actually meant to be Continue
+    result = result.replace("Write Granite.Code Config", "Write Continue Config");
     return result;
   }
 

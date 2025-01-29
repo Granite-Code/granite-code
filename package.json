@@ -360,7 +360,7 @@
       },
       {
         "command": "granite.writeContinueConfig",
-        "title": "Write Granite.Code Config",
+        "title": "Write Continue Config",
         "category": "Granite.Code",
         "group": "Granite.Code"
       },
