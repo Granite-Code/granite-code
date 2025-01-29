@@ -50,7 +50,12 @@
     "onView:continueGUIView"
   ],
   "main": "./out/index.js",
+  "scripts": {
+    "prettier:check": "prettier -c .",
+    "prettier:fix": "prettier -w ."
+  },
   "devDependencies": {
-    "esbuild": "0.17.19"
+    "esbuild": "0.17.19",
+    "prettier": "^3.4.2"
   }
 }
