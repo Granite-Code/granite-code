@@ -2,11 +2,13 @@
  * This is the entry point for the extension.
  */
 import * as vscode from "vscode";
-import { setupCa } from "core/util/ca";
+import { setupCa } from "./continue/core/util/ca";
 
 async function activateAsync(context: vscode.ExtensionContext) {
   await setupCa();
-  const { activateExtension } = await import("extension/activation/activate");
+  const { activateExtension } = await import(
+    "./continue/extensions/vscode/src/activation/activate"
+  );
   console.log("activating extension");
   return await activateExtension(context);
 }
