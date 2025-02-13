@@ -1,6 +1,9 @@
 build
 continue
 node_modules
+node_modules:darwin-arm64
+node_modules:linux-arm64
+node_modules:linux-x64
 scripts
 tsconfig.json
 .gitmodules

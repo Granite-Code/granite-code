@@ -56,12 +56,13 @@
     "install-dependencies": "node scripts/install-dependencies.js",
     "build": "node scripts/build.js",
     "create-package": "node scripts/create-package.js",
+    "create-linux-x64-package": "node scripts/create-package.js --target linux-x64",
     "update-package-json": "node scripts/update-package-json.js"
   },
   "devDependencies": {
     "@vscode/vsce": "2.15.0",
-    "esbuild": "0.17.19",
-    "ncp": "^2.0.0",
+    "esbuild": "^0.17.19",
+    "minimatch": "^10.0.0",
     "prettier": "^3.4.2",
     "rimraf": "^6.0.1"
   },
