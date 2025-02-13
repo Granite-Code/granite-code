@@ -1,3 +1,4 @@
+const path = require("path");
 const { spawn } = require("child_process");
 const { Transform } = require("stream");
 
@@ -38,6 +39,47 @@ class LineStream extends Transform {
     callback();
   }
 }
+
+/**
+ * Utility function to find the shared root between all passed in
+ * file paths.
+ *
+ * @param {Array} filePaths - Array of file paths with a common root
+ */
+function findCommonPathRoot(filePaths) {
+  if (filePaths.length === 0) {
+    return "";
+  }
+
+  const commonSegments = [];
+  let index = 0;
+  let segmentsMatch = true;
+  while (segmentsMatch) {
+    let currentSegment = null;
+    for (const filePath of filePaths) {
+      const directoryPath = path.dirname(filePath);
+      const segments = directoryPath.split(path.sep);
+      if (index >= segments.length) {
+        segmentsMatch = false;
+        break;
+      }
+
+      if (currentSegment === null) {
+        currentSegment = segments[index];
+      } else if (currentSegment !== segments[index]) {
+        segmentsMatch = false;
+        break;
+      }
+    }
+
+    if (segmentsMatch) commonSegments.push(currentSegment);
+    index++;
+  }
+
+  return commonSegments.join(path.sep);
+}
+
+exports.findCommonPathRoot = findCommonPathRoot;
 
 /**
  * Convenience async function to run a command, prefixing the
