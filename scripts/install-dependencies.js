@@ -60,7 +60,7 @@ const installConfiguration = {
     {
       description: "LanceDB vector database for {os} ({arch})",
       inputModules: ["@lancedb/vectordb-{vectordb_platform}"],
-      platforms: ["linux-x64", "linux-arm64", "darwin-arm64"],
+      platforms: ["linux-x64", "linux-arm64", "darwin-arm64", "win32-x64"],
       outputDir: "../node_modules:{node_modules_suffix}",
     },
     {
@@ -68,6 +68,13 @@ const installConfiguration = {
       inputModules: ["esbuild-{esbuild_platform}"],
       outputDir: "../node_modules:{node_modules_suffix}",
       platforms: ["linux-x64", "linux-arm64", "darwin-arm64", "win32-x64"],
+    },
+    {
+      description:
+        "Binaries for accessing system Certificate Authority on Windows ({arch})",
+      inputModules: ["win-ca"],
+      outputDir: "../node_modules:{node_modules_suffix}",
+      platforms: ["win32-x64"],
     },
   ],
   variables: [
@@ -100,6 +107,7 @@ const installConfiguration = {
       os: "Windows",
       arch: "x86-64",
       node_modules_suffix: "win32-x64",
+      vectordb_platform: "win32-x64-msvc",
       esbuild_platform: "windows-64",
     },
   ],
