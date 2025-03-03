@@ -121,6 +121,15 @@ const packageConfiguration = {
       outputDir: "out/build/Release",
       platforms: ["linux-x64", "linux-arm64", "darwin-arm64", "win32-x64"],
     },
+    {
+      description:
+        "Binaries for accessing system Certificate Authority on Windows ({arch})",
+      inputFiles: [
+        "node_modules:{node_modules_suffix}/node_modules/win-ca/lib/crypt32-x64.node"
+      ],
+      outputDir: "FIXME: FIGURE OUT WHERE THIS GOES",
+      platforms: ["linux-x64", "linux-arm64", "darwin-arm64", "win32-x64"],
+    },
   ],
   variables: [
     {
