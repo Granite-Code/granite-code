@@ -66,3 +66,21 @@ async function runCommand(outputPrefix, command, cwd) {
 }
 
 exports.runCommand = runCommand;
+
+/**
+ * Expands template strings in values using the provided variables
+ * @param {string|Array} value - The template string or array to expand
+ * @param {Object} variables - Object containing variable values
+ * @returns {string|Array} The expanded value
+ */
+function expandTemplate(value, variables) {
+  if (typeof value === "string") {
+    return value.replace(/\{(\w+)\}/g, (match, key) => variables[key] || match);
+  }
+  if (Array.isArray(value)) {
+    return value.map((item) => expandTemplate(item, variables));
+  }
+  return value;
+}
+
+exports.expandTemplate = expandTemplate;
