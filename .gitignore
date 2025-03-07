@@ -1,4 +1,10 @@
+bin
 build
 gui
+media
 node_modules
 out
+package-dependencies
+tag-qry
+textmate-syntaxes
+tree-sitter
