@@ -63,6 +63,10 @@ const packageConfiguration = {
       platforms: ["linux-*"],
     },
     {
+      description: "Tutorial file",
+      inputFiles: ["continue/extensions/vscode/continue_tutorial.py"],
+    },
+    {
       description: "x86-64 Linux binary libraries for reading ONNX files",
       inputFiles: [
         "continue/core/node_modules/onnxruntime-node/bin/napi-v3/linux/x64/*",
