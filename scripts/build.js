@@ -77,6 +77,37 @@ const namespaceTransformPlugin = makeTransformPlugin({
   ],
 });
 
+const controlPlaneTransformPlugin = makeTransformPlugin({
+  name: "granite-control-plane-transform",
+  basePath: "continue/core/control-plane",
+  substitutions: [
+    // This among other things, transforms EXTENSION_NAME
+    {
+      pattern: /^continue$/,
+      replacement: "granite",
+    },
+    // This doesn't matter but, transform to match "continue"
+    {
+      pattern: /^continue-staging$/,
+      replacement: "granite-staging",
+    },
+    // These make sure we we don't make API calls to continue.dev
+    // or their SaaS providers
+    {
+      pattern: /continue[.]dev/,
+      replacement: "example.com",
+    },
+    {
+      pattern: /[.]run[.]app/,
+      replacement: ".example.com",
+    },
+    {
+      pattern: /[.]workos[.]com/,
+      replacement: ".example.com",
+    },
+  ],
+});
+
 const buildConfig = {
   entryPoints: ["./extension.ts"],
   bundle: true,
@@ -87,7 +118,7 @@ const buildConfig = {
   sourcemap: true,
   sourcesContent: true,
   outfile: "./out/index.js",
-  plugins: [namespaceTransformPlugin],
+  plugins: [namespaceTransformPlugin, controlPlaneTransformPlugin],
   platform: "node",
 
   // Workaround, see: https://github.com/evanw/esbuild/issues/1492#issuecomment-893144483
