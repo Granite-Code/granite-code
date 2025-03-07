@@ -22,6 +22,11 @@ const packageConfiguration = {
       exclusions: ["**/jetbrains*"],
     },
     {
+      description: "Extension assets",
+      inputFiles: ["continue/extensions/vscode/media/*"],
+      outputDir: "media/",
+    },
+    {
       description: "Tree-sitter language tagging query files",
       inputFiles: ["continue/extensions/vscode/tag-qry/*.scm"],
       outputDir: "tag-qry/",

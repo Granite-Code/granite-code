@@ -1,6 +1,7 @@
 {
   "name": "granite-code",
   "author": "Red Hat, Inc",
+  "icon": "media/icon.png",
   "version": "0.0.1",
   "repository": {
     "type": "git",
