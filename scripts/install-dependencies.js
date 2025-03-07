@@ -1,7 +1,7 @@
 const path = require("path");
 const { promisify } = require("util");
 const fs = require("fs").promises;
-const { runCommand, expandTemplate } = require("./utils.js");
+const { NPM, runCommand, expandTemplate } = require("./utils.js");
 
 // The glob and minimatch modules may not be available until after nodeModulesInstallation returns
 // so they'll get imported later
@@ -170,7 +170,7 @@ async function nodeModulesInstallation(packageDir) {
 
   try {
     await runCommand("npm:     ", [
-      "npm",
+      NPM,
       "install",
       "--no-fund",
       "--no-audit",
@@ -313,7 +313,7 @@ async function platformDependenciesInstallation(target) {
 
       await fs.mkdir(outputDir, { recursive: true });
       await runCommand("npm:     ", [
-        "npm",
+        NPM,
         "install",
         ...expandedInputModules,
         "--architecture=" + architecture,

@@ -4,6 +4,8 @@
 const fs = require("fs").promises;
 const path = require("path");
 const {
+  NPM,
+  NPX,
   runCommand,
   findCommonPathRoot,
   expandTemplate,
@@ -355,12 +357,12 @@ async function copyPackageAssets(target) {
 async function buildSidebarUi() {
   console.log("\nBuilding Sidebar UI…");
   const guiDir = path.resolve(projectRoot, "continue/gui/");
-  await runCommand("npm: ", "npm run build", guiDir);
+  await runCommand("npm: ", `${NPM} run build`, guiDir);
 }
 
 async function runVsce(isPreRelease, target) {
   console.log("\nPackaging extension…");
-  let command = ["npx", "vsce", "package", "--out", "./build"];
+  let command = [NPX, "vsce", "package", "--out", "./build"];
   if (isPreRelease) {
     command.push("--pre-release");
   }
