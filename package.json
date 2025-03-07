@@ -109,11 +109,6 @@
           "default": true,
           "markdownDescription": "Granite.Code collects anonymous usage data, cleaned of PII, to help us improve the product for our users. Read more  at [continue.dev › Telemetry](https://docs.continue.dev/telemetry)."
         },
-        "granite.enableContinueHub": {
-          "type": "boolean",
-          "default": false,
-          "description": "Enable Granite.Code Hub (internal)"
-        },
         "granite.showInlineTip": {
           "type": "boolean",
           "default": true,
@@ -352,20 +347,6 @@
         "group": "Granite.Code"
       },
       {
-        "command": "granite.signInToControlPlane",
-        "title": "Sign In",
-        "category": "Granite.Code",
-        "group": "Granite.Code",
-        "icon": "$(account)"
-      },
-      {
-        "command": "granite.openAccountDialog",
-        "title": "Account",
-        "category": "Granite.Code",
-        "group": "Granite.Code",
-        "icon": "$(account)"
-      },
-      {
         "command": "granite.writeContinueConfig",
         "title": "Write Continue Config",
         "category": "Granite.Code",
@@ -515,27 +496,27 @@
         {
           "command": "granite.writeCommentsForCode",
           "group": "Granite.Code",
-          "when": "editorHasSelection"
+          "when": "editorHasSelection && !editorReadonly"
         },
         {
           "command": "granite.writeDocstringForCode",
           "group": "Granite.Code",
-          "when": "editorHasSelection"
+          "when": "editorHasSelection && !editorReadonly"
         },
         {
           "command": "granite.fixCode",
           "group": "Granite.Code",
-          "when": "editorHasSelection"
+          "when": "editorHasSelection && !editorReadonly"
         },
         {
           "command": "granite.optimizeCode",
           "group": "Granite.Code",
-          "when": "editorHasSelection"
+          "when": "editorHasSelection && !editorReadonly"
         },
         {
           "command": "granite.fixGrammar",
           "group": "Granite.Code",
-          "when": "editorHasSelection && editorLangId == 'markdown'"
+          "when": "editorHasSelection && editorLangId == 'markdown' && !editorReadonly"
         }
       ],
       "explorer/context": [
