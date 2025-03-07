@@ -2,6 +2,9 @@ const path = require("path");
 const { spawn } = require("child_process");
 const { Transform } = require("stream");
 
+exports.NPM = process.platform == "win32" ? "npm.cmd" : "npm";
+exports.NPX = process.platform == "win32" ? "npx.cmd" : "npx";
+
 function waitForSubprocess(subprocess, command) {
   return new Promise((resolve, reject) => {
     subprocess.on("close", (code) => {
