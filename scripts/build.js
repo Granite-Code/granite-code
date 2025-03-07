@@ -25,7 +25,7 @@ const extensionPath = path.resolve(
   "../continue/extensions/vscode/src",
 );
 const extensionFilter = new RegExp(
-  "^" + escapeForRegExp(extensionPath) + "/.*\\.ts$",
+  "^" + escapeForRegExp(extensionPath + path.sep) + ".*\\.ts$",
 );
 
 const namespaceSubstitutions = [
