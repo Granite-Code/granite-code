@@ -384,8 +384,8 @@ async function main() {
   await fs.mkdir("build", { recursive: true });
 
   await purgePackageAssets();
-  await copyPackageAssets(target);
   await buildSidebarUi();
+  await copyPackageAssets(target);
   await runVsce(isPreRelease, target);
 }
 
