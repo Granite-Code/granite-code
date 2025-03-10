@@ -122,15 +122,6 @@ const packageConfiguration = {
     },
     {
       description:
-        "SQLite3 binary libraries for {os} ({arch}) in cross-platform directory",
-      inputFiles: [
-        "package-dependencies/{package_dependencies_platform}/node_modules/sqlite3/build/Release/node_sqlite3.node",
-      ],
-      outputDir: "out/lib/bindings/node-v{node_modules_abi}-{bindings_suffix}/",
-      platforms: ["linux-x64", "linux-arm64", "darwin-arm64", "win32-x64"],
-    },
-    {
-      description:
         "SQLite3 binary libraries for {os} ({arch}) in platform-independent directory",
       inputFiles: [
         "package-dependencies/{package_dependencies_platform}/node_modules/sqlite3/build/Release/node_sqlite3.node",
