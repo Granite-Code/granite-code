@@ -20,59 +20,62 @@ function escapeForRegExp(str) {
   return str.replace(/[|\\*?+$^.{}()\[\]]/g, "\\$&");
 }
 
-const extensionPath = path.resolve(
-  __dirname,
-  "../continue/extensions/vscode/src",
-);
-const extensionFilter = new RegExp(
-  "^" + escapeForRegExp(extensionPath + path.sep) + ".*\\.ts$",
-);
+const makeTransformPlugin = ({ name, basePath, substitutions }) => {
+  const absPath = path.resolve(__dirname, "..", basePath);
+  const filter = new RegExp(
+    "^" + escapeForRegExp(absPath + path.sep) + ".*\\.ts$",
+  );
 
-const namespaceSubstitutions = [
-  {
-    pattern: /^continue[.]/,
-    replacement: "granite.",
-  },
-  {
-    pattern: /^Continue[.]continue$/,
-    replacement: "redhat.granite-code",
-  },
-  {
-    pattern: /continueGUI/,
-    replacement: "graniteGUI",
-  },
-];
+  const transform = (fileContents) => {
+    // For speed, we do this just as a string replacement, rather than
+    // using ts-morph or similar. We only care about simple strings
+    // like "continue.acceptDiff", so we can simplify matching
+    // strings in the source code.
+    return fileContents.replace(/"([^"\\\r\n]+)"/g, (m, strContents) => {
+      for (const { pattern, replacement } of substitutions) {
+        strContents = strContents.replace(pattern, replacement);
+      }
+      return '"' + strContents + '"';
+    });
+  };
 
-function namespaceTransform(fileContents) {
-  // For speed, we do this just as a string replacement, rather than
-  // using ts-morph or similar. We only care about simple strings
-  // like "continue.acceptDiff", so we can simplify matching
-  // strings in the source code.
-  return fileContents.replace(/"([^"\\\r\n]+)"/g, (m, strContents) => {
-    for (const { pattern, replacement } of namespaceSubstitutions) {
-      strContents = strContents.replace(pattern, replacement);
-    }
-    return '"' + strContents + '"';
-  });
-}
-
-const namespaceTransformPlugin = {
-  name: "granite-namespace-transform",
-  setup(build) {
-    build.onLoad(
-      {
-        filter: extensionFilter,
-      },
-      async (args) => {
-        const text = await fs.promises.readFile(args.path, "utf8");
-        return {
-          contents: namespaceTransform(text),
-          loader: "ts",
-        };
-      },
-    );
-  },
+  return {
+    name: name,
+    setup(build) {
+      build.onLoad(
+        {
+          filter: filter,
+        },
+        async (args) => {
+          const text = await fs.promises.readFile(args.path, "utf8");
+          return {
+            contents: transform(text),
+            loader: "ts",
+          };
+        },
+      );
+    },
+  };
 };
+
+const namespaceTransformPlugin = makeTransformPlugin({
+  name: "granite-namespace-transform",
+  basePath: "continue/extensions/vscode/src",
+  substitutions: [
+    {
+      pattern: /^continue[.]/,
+      replacement: "granite.",
+    },
+    {
+      pattern: /^Continue[.]continue$/,
+      replacement: "redhat.granite-code",
+    },
+    {
+      pattern: /continueGUI/,
+      replacement: "graniteGUI",
+    },
+  ],
+});
 
 const buildConfig = {
   entryPoints: ["./extension.ts"],
