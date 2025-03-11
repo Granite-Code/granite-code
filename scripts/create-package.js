@@ -127,7 +127,7 @@ const packageConfiguration = {
         "package-dependencies/{package_dependencies_platform}/node_modules/sqlite3/build/Release/node_sqlite3.node",
       ],
       outputDir: "out/build/Release",
-      platforms: [`${process.platform}-${process.arch}`],
+      platforms: ["linux-x64", "linux-arm64", "darwin-arm64", "win32-x64"],
     },
     {
       description:
@@ -374,17 +374,31 @@ async function runVsce(isRelease, target) {
   await runCommand("vsce: ", command);
 }
 
-async function main() {
-  const args = process.argv.slice(2);
-  let target;
+function parseCommandLine(args) {
+  let target = null;
+  let isRelease = false;
 
-  if (args[0] === "--target") {
-    target = args[1];
+  for (let i = 0; i < args.length; i++) {
+    if (args[i] === "--target") {
+      if (i + 1 >= args.length) {
+        throw new Error("--target requires a platform argument");
+      }
+      target = args[i + 1];
+      i++;
+    } else if (args[i] === "--release") {
+      isRelease = true;
+    } else {
+      throw new Error(`Unknown argument: ${args[i]}`);
+    }
   }
-  const isRelease = args.includes("--release");
+
+  return { target, isRelease };
+}
+
+async function main() {
+  const { target, isRelease } = parseCommandLine(process.argv.slice(2));
 
   await fs.mkdir("build", { recursive: true });
-
   await purgePackageAssets();
   await buildSidebarUi();
   await copyPackageAssets(target);
