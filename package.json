@@ -2,7 +2,7 @@
   "name": "granitecode",
   "author": "Red Hat, Inc",
   "icon": "media/icon.png",
-  "version": "0.0.1",
+  "version": "0.2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/granite-code/granite-code"
