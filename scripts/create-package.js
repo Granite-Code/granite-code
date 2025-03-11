@@ -226,11 +226,13 @@ async function processPackageConfigurationEntry(
 
       if (condition?.destinationExists !== undefined) {
         try {
-          const fileExists = await fs.access(destinationFile);
-          if (fileExists !== condition.destinationExists) {
-            continue;
-          }
+          await fs.access(destinationFile);
+          fileExists = true;
         } catch (error) {
+          fileExists = false;
+        }
+
+        if (fileExists !== condition.destinationExists) {
           continue;
         }
       }
