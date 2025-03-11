@@ -297,7 +297,7 @@ function expandPackageConfigurationEntry(entry, variables, target) {
       !target ||
       entry.platforms?.some((platform) =>
         variableEntries.platforms.some((variablePlatform) =>
-          minimatch(platform, variablePlatform),
+          minimatch(variablePlatform, platform),
         ),
       );
     if (entry.platforms && !platformMatches) {
