@@ -261,12 +261,18 @@ async function processPackageConfigurationEntry(
 }
 
 async function purgePackageAssets() {
+  const platforms = Object.keys(packageConfiguration.platforms);
+
   for (const entry of packageConfiguration.entries) {
-    const expandedEntries = expandPackageConfigurationEntry(
-      entry,
-      packageConfiguration.variables,
-      null,
-    );
+    const expandedEntries = platforms.reduce((entries, target) => {
+      return entries.concat(
+        expandPackageConfigurationEntry(
+          entry,
+          packageConfiguration.platforms,
+          target,
+        ),
+      );
+    }, []);
 
     for (const expandedEntry of expandedEntries) {
       await processPackageConfigurationEntry(
