@@ -127,7 +127,7 @@ const packageConfiguration = {
         "package-dependencies/{package_dependencies_platform}/node_modules/sqlite3/build/Release/node_sqlite3.node",
       ],
       outputDir: "out/build/Release",
-      platforms: [`${process.platform}-${process.arch}`],
+      platforms: ["linux-x64", "linux-arm64", "darwin-arm64", "win32-x64"],
     },
     {
       description:
