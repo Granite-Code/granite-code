@@ -360,10 +360,10 @@ async function buildSidebarUi() {
   await runCommand("npm: ", `${NPM} run build`, guiDir);
 }
 
-async function runVsce(isPreRelease, target) {
+async function runVsce(isRelease, target) {
   console.log("\nPackaging extension…");
   let command = [NPX, "vsce", "package", "--out", "./build"];
-  if (isPreRelease) {
+  if (!isRelease) {
     command.push("--pre-release");
   }
   command.push("--no-dependencies");
@@ -381,14 +381,14 @@ async function main() {
   if (args[0] === "--target") {
     target = args[1];
   }
-  const isPreRelease = args.includes("--pre-release");
+  const isRelease = args.includes("--release");
 
   await fs.mkdir("build", { recursive: true });
 
   await purgePackageAssets();
   await buildSidebarUi();
   await copyPackageAssets(target);
-  await runVsce(isPreRelease, target);
+  await runVsce(isRelease, target);
 }
 
 main().catch((e) => {
