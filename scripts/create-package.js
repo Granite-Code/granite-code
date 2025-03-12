@@ -75,14 +75,6 @@ const packageConfiguration = {
       platforms: ["linux-x64", "alpine-x64"],
     },
     {
-      description: "arm64 Linux binary libraries for reading ONNX files",
-      inputFiles: [
-        "continue/core/node_modules/onnxruntime-node/bin/napi-v3/linux/arm64/*",
-      ],
-      outputDir: "bin/napi-v3/linux/arm64/",
-      platforms: ["linux-arm64", "alpine-arm64"],
-    },
-    {
       description: "x86-64 Windows binary libraries for reading ONNX files",
       inputFiles: [
         "continue/core/node_modules/onnxruntime-node/bin/napi-v3/win32/x64/*",
@@ -150,14 +142,6 @@ const packageConfiguration = {
       arch: "x86-64",
       package_dependencies_platform: "linux-x64",
       bindings_suffix: "linux-x64",
-      node_modules_abi: process.versions.modules,
-    },
-    "linux-arm64": {
-      platform_aliases: ["alpine-arm64"],
-      os: "Linux",
-      arch: "arm64",
-      package_dependencies_platform: "linux-arm64",
-      bindings_suffix: "linux-arm64",
       node_modules_abi: process.versions.modules,
     },
     "darwin-arm64": {

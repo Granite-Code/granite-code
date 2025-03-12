@@ -103,14 +103,6 @@ const installConfiguration = {
       vectordb_platform: "linux-x64-gnu",
       esbuild_platform: "linux-64",
     },
-    "linux-arm64": {
-      platform_aliases: ["alpine-arm64"],
-      os: "Linux",
-      arch: "arm64",
-      package_dependencies_platform: "linux-arm64",
-      vectordb_platform: "linux-arm64-gnu",
-      esbuild_platform: "linux-arm64",
-    },
     "darwin-arm64": {
       os: "macOS",
       arch: "arm64",
