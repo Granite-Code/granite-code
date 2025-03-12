@@ -68,7 +68,7 @@ const namespaceTransformPlugin = makeTransformPlugin({
     },
     {
       pattern: /^Continue[.]continue$/,
-      replacement: "redhat.granite-code",
+      replacement: "redhat.granitecode",
     },
     {
       pattern: /continueGUI/,
