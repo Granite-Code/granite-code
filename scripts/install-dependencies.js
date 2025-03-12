@@ -51,7 +51,6 @@ const installConfiguration = {
         "LLM tokenizer modules workerpool dependency for VSIX package",
       inputModules: ["workerpool"],
       outputDir: "../package-dependencies/noarch",
-      platforms: [`${process.platform}-${process.arch}`],
     },
     {
       description: "SQLite3 library for {os} ({arch})",
@@ -64,13 +63,11 @@ const installConfiguration = {
         "package-dependencies/{package_dependencies_platform}/node_modules/sqlite3/build/Release/node_sqlite3.node",
       ],
       outputDir: "../build",
-      platforms: [`${process.platform}-${process.arch}`],
     },
     {
       description: "Lancedb for in-tree testing",
       inputModules: ["lancedb"],
       outputDir: "../node_modules",
-      platforms: [`${process.platform}-${process.arch}`],
     },
     {
       description: "XML Http Request Worker",
@@ -82,13 +79,11 @@ const installConfiguration = {
       description: "LanceDB vector database for {os} ({arch})",
       inputModules: ["@lancedb/vectordb-{vectordb_platform}"],
       outputDir: "../package-dependencies/{package_dependencies_platform}",
-      platforms: ["linux-x64", "linux-arm64", "darwin-arm64", "win32-x64"],
     },
     {
       description: "esbuild binaries for {os} ({arch})",
       inputModules: ["esbuild-{esbuild_platform}"],
       outputDir: "../package-dependencies/{package_dependencies_platform}",
-      platforms: ["linux-x64", "linux-arm64", "darwin-arm64", "win32-x64"],
     },
     {
       description:
@@ -98,67 +93,106 @@ const installConfiguration = {
       platforms: ["win32-x64"],
     },
   ],
-  variables: [
-    {
-      platforms: ["linux-x64", "alpine-x64"],
+
+  platforms: {
+    "linux-x64": {
+      platform_aliases: ["alpine-x64"],
       os: "Linux",
       arch: "x86-64",
       package_dependencies_platform: "linux-x64",
       vectordb_platform: "linux-x64-gnu",
       esbuild_platform: "linux-64",
     },
-    {
-      platforms: ["linux-arm64", "alpine-arm64"],
+    "linux-arm64": {
+      platform_aliases: ["alpine-arm64"],
       os: "Linux",
       arch: "arm64",
       package_dependencies_platform: "linux-arm64",
       vectordb_platform: "linux-arm64-gnu",
       esbuild_platform: "linux-arm64",
     },
-    {
-      platforms: ["darwin-arm64"],
+    "darwin-arm64": {
       os: "macOS",
       arch: "arm64",
       package_dependencies_platform: "darwin-arm64",
       vectordb_platform: "darwin-arm64",
       esbuild_platform: "darwin-arm64",
     },
-    {
-      platforms: ["win32-x64"],
+    "win32-x64": {
       os: "Windows",
       arch: "x86-64",
       package_dependencies_platform: "win32-x64",
       vectordb_platform: "win32-x64-msvc",
       esbuild_platform: "windows-64",
     },
-  ],
+  },
   root: "./out",
 };
 
-function expandInstallConfigurationEntry(entry, variables) {
-  const expandedEntries = [];
+function getPlatforms({ filter = null } = {}) {
+  const platforms = [];
 
-  if (!variables) return [entry];
+  Object.entries(installConfiguration.platforms).forEach(
+    ([platform, variables]) => {
+      platforms.push(platform);
+      if (variables.platform_aliases)
+        platforms.push(...variables.platform_aliases);
+    },
+  );
 
-  for (const variableEntries of variables) {
+  if (filter) {
+    return platforms.filter((platform) =>
+      filter.some((pattern) => minimatch(platform, pattern)),
+    );
+  }
+  return platforms;
+}
+
+function expandInstallConfigurationEntry(entry, platforms, target) {
+  if (!platforms) return [entry];
+
+  const relevantPlatforms = target
+    ? getPlatforms({ filter: [target] })
+    : getPlatforms();
+
+  const entryPlatformMap = new Map();
+  for (const platform of relevantPlatforms) {
+    const variables = platforms[platform];
+    if (!variables) continue;
+
     if (
       entry.platforms &&
-      !entry.platforms.some((p) => variableEntries.platforms.includes(p))
-    ) {
+      !entry.platforms.some((pattern) => minimatch(platform, pattern))
+    )
       continue;
+
+    const expandedEntry = { ...entry };
+    delete expandedEntry.platforms;
+
+    for (const [key, value] of Object.entries(expandedEntry)) {
+      if (typeof value !== "string" && !Array.isArray(value)) continue;
+      expandedEntry[key] = expandTemplate(value, { ...variables, platform });
     }
 
-    const expandedEntry = {
-      ...entry,
-      platforms: variableEntries.platforms,
-    };
+    const entryKey = JSON.stringify(expandedEntry);
 
-    for (const [key, value] of Object.entries(entry)) {
-      expandedEntry[key] = expandTemplate(value, variableEntries);
+    if (entryPlatformMap.has(entryKey)) {
+      const platforms = entryPlatformMap.get(entryKey);
+      platforms.push(platform);
+    } else {
+      entryPlatformMap.set(entryKey, [platform]);
     }
-
-    expandedEntries.push(expandedEntry);
   }
+
+  let expandedEntries = Array.from(entryPlatformMap.entries()).map(
+    ([entryKey, platforms]) => {
+      const entry = JSON.parse(entryKey);
+      entry.platforms = platforms;
+      return entry;
+    },
+  );
+
+  if (expandedEntries.length === 0) expandedEntries = [entry];
 
   return expandedEntries;
 }
@@ -198,7 +232,8 @@ async function runtimeAssetsCopy(target) {
 
     const expandedEntries = expandInstallConfigurationEntry(
       entry,
-      installConfiguration.variables,
+      installConfiguration.platforms,
+      target,
     );
 
     for (const expandedEntry of expandedEntries) {
@@ -206,13 +241,13 @@ async function runtimeAssetsCopy(target) {
       const inputFiles = [];
       for (const filePattern of expandedEntry.inputFiles) {
         const matches = await glob(filePattern);
-
         for (const match of matches) inputFiles.push(match);
       }
 
       if (
         target &&
-        !expandedEntry.platforms?.some((pattern) => minimatch(target, pattern))
+        expandedEntry.platforms &&
+        !expandedEntry.platforms.some((pattern) => minimatch(target, pattern))
       ) {
         continue;
       }
@@ -279,19 +314,25 @@ async function platformDependenciesInstallation(target) {
 
     const expandedEntries = expandInstallConfigurationEntry(
       entry,
-      installConfiguration.variables,
+      installConfiguration.platforms,
+      target,
     );
 
     for (const expandedEntry of expandedEntries) {
       if (
         target &&
-        !expandedEntry.platforms?.some((pattern) => minimatch(target, pattern))
+        expandedEntry.platforms &&
+        !expandedEntry.platforms.some((pattern) => minimatch(target, pattern))
       ) {
         continue;
       }
 
-      const platform = target ? target.split("-")[0] : process.platform;
-      const architecture = target ? target.split("-")[1] : process.arch;
+      let platform, architecture;
+      if (target) {
+        [platform, architecture] = target.split("-");
+      } else {
+        [platform, architecture] = expandedEntry.platforms[0].split("-");
+      }
 
       const outputDir = path.resolve(
         installConfiguration.root,
@@ -307,7 +348,8 @@ async function platformDependenciesInstallation(target) {
 
       const expandedInputModules = expandedEntry.inputModules.map((module) =>
         expandTemplate(module, {
-          platform: target || `${platform}-${architecture}`,
+          platform,
+          arch: architecture,
         }),
       );
 
