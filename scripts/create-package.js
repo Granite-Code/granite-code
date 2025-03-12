@@ -177,6 +177,26 @@ const packageConfiguration = {
   },
 };
 
+function getPlatforms({ filter = null } = {}) {
+  const platforms = [];
+
+  Object.entries(packageConfiguration.platforms).forEach(
+    ([platform, variables]) => {
+      platforms.push(platform);
+      if (variables.platform_aliases) {
+        platforms.push(...variables.platform_aliases);
+      }
+    },
+  );
+
+  if (filter) {
+    return platforms.filter((platform) =>
+      filter.some((pattern) => minimatch(platform, pattern)),
+    );
+  }
+  return platforms;
+}
+
 async function copyFile(sourceFile, destinationFile) {
   console.log(`    ${sourceFile} →\n        ${destinationFile}`);
   await fs.copyFile(sourceFile, destinationFile);
@@ -258,7 +278,7 @@ async function processPackageConfigurationEntry(
 }
 
 async function purgePackageAssets() {
-  const platforms = Object.keys(packageConfiguration.platforms);
+  const platforms = getPlatforms();
 
   for (const entry of packageConfiguration.entries) {
     const expandedEntries = platforms.reduce((entries, target) => {
@@ -292,41 +312,50 @@ async function purgePackageAssets() {
 }
 
 function expandPackageConfigurationEntry(entry, platforms, target) {
-  const expandedEntries = [];
-
   if (!platforms) return [entry];
 
   const relevantPlatforms = target
-    ? Object.entries(platforms).filter(([platform, variables]) =>
-        [platform, ...(variables.platform_aliases || [])].some((platformName) =>
-          minimatch(target, platformName),
-        ),
-      )
-    : Object.entries(platforms);
+    ? getPlatforms({ filter: [target] })
+    : getPlatforms();
 
-  for (const [platform, variables] of relevantPlatforms) {
-    const platformMatches =
-      !target ||
-      entry.platforms?.some((platformPattern) =>
-        [platform, ...(variables.platform_aliases || [])].some((platformName) =>
-          minimatch(platformName, platformPattern),
-        ),
-      );
-    if (entry.platforms && !platformMatches) {
+  const entryPlatformMap = new Map();
+  for (const platform of relevantPlatforms) {
+    const variables = platforms[platform];
+    if (!variables) continue;
+
+    if (
+      entry.platforms &&
+      !entry.platforms.some((pattern) => minimatch(platform, pattern))
+    )
       continue;
-    }
 
     const expandedEntry = { ...entry };
+    delete expandedEntry.platforms;
 
-    for (const [key, value] of Object.entries(entry)) {
-      if (key === "platforms") continue;
+    for (const [key, value] of Object.entries(expandedEntry)) {
       if (typeof value !== "string" && !Array.isArray(value)) continue;
-
       expandedEntry[key] = expandTemplate(value, { ...variables, platform });
     }
 
-    expandedEntries.push(expandedEntry);
+    const entryKey = JSON.stringify(expandedEntry);
+
+    if (entryPlatformMap.has(entryKey)) {
+      const platforms = entryPlatformMap.get(entryKey);
+      platforms.push(platform);
+    } else {
+      entryPlatformMap.set(entryKey, [platform]);
+    }
   }
+
+  let expandedEntries = Array.from(entryPlatformMap.entries()).map(
+    ([entryKey, platforms]) => {
+      const entry = JSON.parse(entryKey);
+      entry.platforms = platforms;
+      return entry;
+    },
+  );
+
+  if (expandedEntries.length === 0) expandedEntries = [entry];
 
   return expandedEntries;
 }
