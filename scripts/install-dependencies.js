@@ -61,7 +61,7 @@ const installConfiguration = {
     {
       description: "SQLite3 library for in-tree testing",
       inputFiles: [
-        "package-dependencies/{package_dependencies_platform}/node_modules/sqlite2/build/Release/node_sqlite3.node",
+        "package-dependencies/{package_dependencies_platform}/node_modules/sqlite3/build/Release/node_sqlite3.node",
       ],
       outputDir: "../build",
       platforms: [`${process.platform}-${process.arch}`],
