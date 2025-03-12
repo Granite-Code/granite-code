@@ -112,13 +112,11 @@ const packageConfiguration = {
         "package-dependencies/{package_dependencies_platform}/node_modules/@lancedb/**/*",
       ],
       outputDir: "out/node_modules/@lancedb",
-      platforms: ["linux-x64", "linux-arm64", "darwin-arm64", "win32-x64"],
     },
     {
       description: "workerpool module dependency for tokenizers",
       inputFiles: ["package-dependencies/noarch/node_modules/workerpool/**/*"],
       outputDir: "out/node_modules/workerpool",
-      platforms: ["linux-x64", "linux-arm64", "darwin-arm64", "win32-x64"],
     },
     {
       description:
@@ -127,7 +125,6 @@ const packageConfiguration = {
         "package-dependencies/{package_dependencies_platform}/node_modules/sqlite3/build/Release/node_sqlite3.node",
       ],
       outputDir: "out/build/Release",
-      platforms: ["linux-x64", "linux-arm64", "darwin-arm64", "win32-x64"],
     },
     {
       description:
@@ -139,40 +136,45 @@ const packageConfiguration = {
       platforms: ["win32-x64"],
     },
   ],
-  variables: [
-    {
-      platforms: ["linux-x64", "alpine-x64"],
+
+  // NOTE: This platforms object is a single source of truth for the list of
+  // supported platforms. Each entry defines a platform and its platform_aliases, along
+  // with a list of variables that can be expanded in the entry fields above.
+  // The entire set of platforms specified here are enumerated in cases there
+  // are no pre-specified target platforms. (like when purging assets, or
+  // copying assets that are for each and every platform.)
+  platforms: {
+    "linux-x64": {
+      platform_aliases: ["alpine-x64"],
       os: "Linux",
       arch: "x86-64",
       package_dependencies_platform: "linux-x64",
       bindings_suffix: "linux-x64",
       node_modules_abi: process.versions.modules,
     },
-    {
-      platforms: ["linux-arm64", "alpine-arm64"],
+    "linux-arm64": {
+      platform_aliases: ["alpine-arm64"],
       os: "Linux",
       arch: "arm64",
       package_dependencies_platform: "linux-arm64",
       bindings_suffix: "linux-arm64",
       node_modules_abi: process.versions.modules,
     },
-    {
-      platforms: ["darwin-arm64"],
+    "darwin-arm64": {
       os: "macOS",
       arch: "arm64",
       package_dependencies_platform: "darwin-arm64",
       bindings_suffix: "darwin-arm64",
       node_modules_abi: process.versions.modules,
     },
-    {
-      platforms: ["win32-x64"],
+    "win32-x64": {
       os: "Windows",
       arch: "x86-64",
       package_dependencies_platform: "win32-x64",
       bindings_suffix: "win32-x64",
       node_modules_abi: process.versions.modules,
     },
-  ],
+  },
 };
 
 async function copyFile(sourceFile, destinationFile) {
@@ -256,12 +258,18 @@ async function processPackageConfigurationEntry(
 }
 
 async function purgePackageAssets() {
+  const platforms = Object.keys(packageConfiguration.platforms);
+
   for (const entry of packageConfiguration.entries) {
-    const expandedEntries = expandPackageConfigurationEntry(
-      entry,
-      packageConfiguration.variables,
-      null,
-    );
+    const expandedEntries = platforms.reduce((entries, target) => {
+      return entries.concat(
+        expandPackageConfigurationEntry(
+          entry,
+          packageConfiguration.platforms,
+          target,
+        ),
+      );
+    }, []);
 
     for (const expandedEntry of expandedEntries) {
       await processPackageConfigurationEntry(
@@ -283,23 +291,25 @@ async function purgePackageAssets() {
   }
 }
 
-function expandPackageConfigurationEntry(entry, variables, target) {
+function expandPackageConfigurationEntry(entry, platforms, target) {
   const expandedEntries = [];
 
-  if (!variables) return [entry];
+  if (!platforms) return [entry];
 
-  const relevantVariables = target
-    ? variables.filter((variable) =>
-        variable.platforms.some((platform) => minimatch(target, platform)),
+  const relevantPlatforms = target
+    ? Object.entries(platforms).filter(([platform, variables]) =>
+        [platform, ...(variables.platform_aliases || [])].some((platformName) =>
+          minimatch(target, platformName),
+        ),
       )
-    : variables;
+    : Object.entries(platforms);
 
-  for (const variableEntries of relevantVariables) {
+  for (const [platform, variables] of relevantPlatforms) {
     const platformMatches =
       !target ||
-      entry.platforms?.some((platform) =>
-        variableEntries.platforms.some((variablePlatform) =>
-          minimatch(variablePlatform, platform),
+      entry.platforms?.some((platformPattern) =>
+        [platform, ...(variables.platform_aliases || [])].some((platformName) =>
+          minimatch(platformName, platformPattern),
         ),
       );
     if (entry.platforms && !platformMatches) {
@@ -312,7 +322,7 @@ function expandPackageConfigurationEntry(entry, variables, target) {
       if (key === "platforms") continue;
       if (typeof value !== "string" && !Array.isArray(value)) continue;
 
-      expandedEntry[key] = expandTemplate(value, variableEntries);
+      expandedEntry[key] = expandTemplate(value, { ...variables, platform });
     }
 
     expandedEntries.push(expandedEntry);
@@ -325,7 +335,7 @@ async function copyPackageAssets(target) {
   for (const entry of packageConfiguration.entries) {
     const expandedEntries = expandPackageConfigurationEntry(
       entry,
-      packageConfiguration.variables,
+      packageConfiguration.platforms,
       target,
     );
 
