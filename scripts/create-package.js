@@ -112,13 +112,11 @@ const packageConfiguration = {
         "package-dependencies/{package_dependencies_platform}/node_modules/@lancedb/**/*",
       ],
       outputDir: "out/node_modules/@lancedb",
-      platforms: ["linux-x64", "linux-arm64", "darwin-arm64", "win32-x64"],
     },
     {
       description: "workerpool module dependency for tokenizers",
       inputFiles: ["package-dependencies/noarch/node_modules/workerpool/**/*"],
       outputDir: "out/node_modules/workerpool",
-      platforms: ["linux-x64", "linux-arm64", "darwin-arm64", "win32-x64"],
     },
     {
       description:
@@ -127,7 +125,6 @@ const packageConfiguration = {
         "package-dependencies/{package_dependencies_platform}/node_modules/sqlite3/build/Release/node_sqlite3.node",
       ],
       outputDir: "out/build/Release",
-      platforms: ["linux-x64", "linux-arm64", "darwin-arm64", "win32-x64"],
     },
     {
       description:
