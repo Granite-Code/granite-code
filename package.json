@@ -63,7 +63,7 @@
     "update-package-json": "node scripts/update-package-json.js"
   },
   "devDependencies": {
-    "@vscode/vsce": "2.15.0",
+    "@vscode/vsce": "^3.2.2",
     "esbuild": "^0.25.0",
     "minimatch": "^10.0.0",
     "prettier": "^3.4.2",
