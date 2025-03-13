@@ -387,7 +387,16 @@ async function buildSidebarUi() {
 
 async function runVsce(isRelease, target) {
   console.log("\nPackaging extension…");
-  let command = [NPX, "vsce", "package", "--out", "./build"];
+  let command = [
+    NPX,
+    "vsce",
+    "package",
+    "--out",
+    "./build",
+    "--readme-path",
+    "README.marketplace.md",
+  ];
+
   if (!isRelease) {
     command.push("--pre-release");
   }

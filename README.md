@@ -35,4 +35,5 @@ See [CONTRIBUTING](./CONTRIBUTING.md)
 
 ## License
 
-The code in this repository is licensed under the [Apache 2.0](./LICENSE), and Copyright 2025, Red Hat, Inc. and others.
+The code in this repository is licensed under the [Apache 2.0 License](./LICENSE),
+and Copyright 2025, Red Hat, Inc. and others.

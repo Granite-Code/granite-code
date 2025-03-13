@@ -2,8 +2,10 @@ build
 continue
 node_modules
 package-dependencies
+README.md
 scripts
 tsconfig.json
+.github
 .gitmodules
 .gitignore
 .prettierignore
