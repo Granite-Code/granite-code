@@ -4,6 +4,7 @@ node_modules
 package-dependencies
 scripts
 tsconfig.json
+.github
 .gitmodules
 .gitignore
 .prettierignore
