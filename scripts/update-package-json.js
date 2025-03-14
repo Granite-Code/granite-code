@@ -27,7 +27,8 @@ function transform(data) {
   }
 
   if (typeof data == "string") {
-    let result = data.replace(/(^| )continue\./, "$1granite.");
+    let result = data.replace(/^continue$/, "granite");
+    result = result.replace(/(^| )continue\./, "$1granite.");
     result = result.replace(/continueGUI/, "graniteGUI");
     result = result.replace(/\bContinue\b/, "Granite.Code");
     // An exception - this is actually meant to be Continue

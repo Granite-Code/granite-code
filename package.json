@@ -594,14 +594,14 @@
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "continue",
+          "id": "granite",
           "title": "Granite.Code",
           "icon": "media/sidebar-icon.png"
         }
       ]
     },
     "views": {
-      "continue": [
+      "granite": [
         {
           "type": "webview",
           "id": "granite.graniteGUIView",
