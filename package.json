@@ -49,7 +49,7 @@
   ],
   "activationEvents": [
     "onStartupFinished",
-    "onView:continueGUIView"
+    "onView:graniteGUIView"
   ],
   "main": "./out/index.js",
   "scripts": {
