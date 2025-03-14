@@ -303,13 +303,15 @@ async function baseDependenciesInstallation() {
 async function platformDependenciesInstallation(target) {
   let installed = false;
 
+  const outputDirs = new Map();
+
   for (const entry of installConfiguration.entries) {
     if (!entry.inputModules) continue;
 
     const expandedEntries = expandInstallConfigurationEntry(
       entry,
       installConfiguration.platforms,
-      target,
+      target
     );
 
     for (const expandedEntry of expandedEntries) {
@@ -321,44 +323,54 @@ async function platformDependenciesInstallation(target) {
         continue;
       }
 
-      let platform, architecture;
-      if (target) {
-        [platform, architecture] = target.split("-");
-      } else {
-        [platform, architecture] = expandedEntry.platforms[0].split("-");
-      }
-
       const outputDir = path.resolve(
         installConfiguration.root,
-        expandedEntry.outputDir ?? "./",
+        expandedEntry.outputDir ?? "./"
       );
 
-      if (!installed) {
-        console.log("\nInstalling platform-specific dependencies...");
-        installed = true;
-      }
-
-      console.log(`\nInstalling ${expandedEntry.description}…`);
-
-      const expandedInputModules = expandedEntry.inputModules.map((module) =>
-        expandTemplate(module, {
-          platform,
-          arch: architecture,
-        }),
+      const currentPlatform = target || `${process.platform}-${process.arch}`;
+      const exactPlatformMatch = expandedEntry.platforms?.some(pattern =>
+        minimatch(currentPlatform, pattern)
       );
 
-      await fs.mkdir(outputDir, { recursive: true });
-      await runCommand("npm:     ", [
-        NPM,
-        "install",
-        ...expandedInputModules,
-        `--arch=${architecture}`,
-        `--platform=${platform}`,
-        "--force",
-        "--prefix",
-        outputDir,
-      ]);
+      if (!outputDirs.has(outputDir) || exactPlatformMatch)
+        outputDirs.set(outputDir, expandedEntry);
     }
+  }
+
+  for (const [outputDir, expandedEntry] of outputDirs) {
+    let platform, architecture;
+    if (target) {
+      [platform, architecture] = target.split("-");
+    } else {
+      [platform, architecture] = expandedEntry.platforms[0].split("-");
+    }
+
+    if (!installed) {
+      console.log("\nInstalling platform-specific dependencies...");
+      installed = true;
+    }
+
+    console.log(`\nInstalling ${expandedEntry.description}…`);
+
+    const expandedInputModules = expandedEntry.inputModules.map((module) =>
+      expandTemplate(module, {
+        platform,
+        arch: architecture,
+      })
+    );
+
+    await fs.mkdir(outputDir, { recursive: true });
+    await runCommand("npm:     ", [
+      NPM,
+      "install",
+      ...expandedInputModules,
+      `--arch=${architecture}`,
+      `--platform=${platform}`,
+      "--force",
+      "--prefix",
+      outputDir,
+    ]);
   }
 
   if (installed) {
