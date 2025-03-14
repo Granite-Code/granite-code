@@ -49,7 +49,7 @@
   ],
   "activationEvents": [
     "onStartupFinished",
-    "onView:continueGUIView"
+    "onView:graniteGUIView"
   ],
   "main": "./out/index.js",
   "scripts": {
@@ -170,187 +170,217 @@
         "command": "granite.applyCodeFromChat",
         "category": "Granite.Code",
         "title": "Apply code from chat",
-        "group": "Granite.Code"
+        "group": "Granite.Code",
+        "enablement": "granite.initialized"
       },
       {
         "command": "granite.acceptDiff",
         "category": "Granite.Code",
         "title": "Accept Diff",
-        "group": "Granite.Code"
+        "group": "Granite.Code",
+        "enablement": "granite.initialized"
       },
       {
         "command": "granite.rejectDiff",
         "category": "Granite.Code",
         "title": "Reject Diff",
         "group": "Granite.Code",
-        "icon": "$(stop)"
+        "icon": "$(stop)",
+        "enablement": "granite.initialized"
       },
       {
         "command": "granite.acceptVerticalDiffBlock",
         "category": "Granite.Code",
         "title": "Accept Vertical Diff Block",
-        "group": "Granite.Code"
+        "group": "Granite.Code",
+        "enablement": "granite.initialized"
       },
       {
         "command": "granite.rejectVerticalDiffBlock",
         "category": "Granite.Code",
         "title": "Reject Vertical Diff Block",
-        "group": "Granite.Code"
+        "group": "Granite.Code",
+        "enablement": "granite.initialized"
       },
       {
         "command": "granite.focusEdit",
         "category": "Granite.Code",
         "title": "Generate Code",
-        "group": "Granite.Code"
+        "group": "Granite.Code",
+        "enablement": "granite.initialized"
       },
       {
         "command": "granite.focusContinueInput",
         "category": "Granite.Code",
         "title": "Add Highlighted Code to Context and Clear Chat",
-        "group": "Granite.Code"
+        "group": "Granite.Code",
+        "enablement": "granite.initialized"
       },
       {
         "command": "granite.focusContinueInputWithoutClear",
         "category": "Granite.Code",
         "title": "Add Highlighted Code to Context",
-        "group": "Granite.Code"
+        "group": "Granite.Code",
+        "enablement": "granite.initialized"
       },
       {
         "command": "granite.debugTerminal",
         "category": "Granite.Code",
         "title": "Debug Terminal",
-        "group": "Granite.Code"
+        "group": "Granite.Code",
+        "enablement": "granite.initialized"
       },
       {
         "command": "granite.exitEditMode",
         "category": "Granite.Code",
         "title": "Exit Edit Mode",
-        "group": "Granite.Code"
+        "group": "Granite.Code",
+        "enablement": "granite.initialized"
       },
       {
         "command": "granite.toggleFullScreen",
         "category": "Granite.Code",
         "title": "Open in new window",
         "icon": "$(link-external)",
-        "group": "Granite.Code"
+        "group": "Granite.Code",
+        "enablement": "granite.initialized"
       },
       {
         "command": "granite.openConfigPage",
         "category": "Granite.Code",
         "title": "Open Settings",
         "icon": "$(gear)",
-        "group": "Granite.Code"
+        "group": "Granite.Code",
+        "enablement": "granite.initialized"
       },
       {
         "command": "granite.toggleTabAutocompleteEnabled",
         "category": "Granite.Code",
         "title": "Toggle Autocomplete Enabled",
-        "group": "Granite.Code"
+        "group": "Granite.Code",
+        "enablement": "granite.initialized"
       },
       {
         "command": "granite.selectFilesAsContext",
         "category": "Granite.Code",
         "title": "Select Files as Context",
-        "group": "Granite.Code"
+        "group": "Granite.Code",
+        "enablement": "granite.initialized"
       },
       {
         "command": "granite.newSession",
         "category": "Granite.Code",
         "title": "New Session",
         "icon": "$(add)",
-        "group": "Granite.Code"
+        "group": "Granite.Code",
+        "enablement": "granite.initialized"
       },
       {
         "command": "granite.viewHistory",
         "category": "Granite.Code",
         "title": "View History",
         "icon": "$(history)",
-        "group": "Granite.Code"
+        "group": "Granite.Code",
+        "enablement": "granite.initialized"
       },
       {
         "command": "granite.viewLogs",
         "category": "Granite.Code",
         "title": "View History",
-        "group": "Granite.Code"
+        "group": "Granite.Code",
+        "enablement": "granite.initialized"
       },
       {
         "command": "granite.navigateTo",
         "category": "Granite.Code",
         "title": "Navigate to a path",
-        "group": "Granite.Code"
+        "group": "Granite.Code",
+        "enablement": "granite.initialized"
       },
       {
         "command": "granite.openMorePage",
         "category": "Granite.Code",
         "title": "More",
         "icon": "$(ellipsis)",
-        "group": "Granite.Code"
+        "group": "Granite.Code",
+        "enablement": "granite.initialized"
       },
       {
         "command": "granite.writeCommentsForCode",
         "category": "Granite.Code",
         "title": "Write Comments for this Code",
-        "group": "Granite.Code"
+        "group": "Granite.Code",
+        "enablement": "granite.initialized"
       },
       {
         "command": "granite.writeDocstringForCode",
         "category": "Granite.Code",
         "title": "Write a Docstring for this Code",
-        "group": "Granite.Code"
+        "group": "Granite.Code",
+        "enablement": "granite.initialized"
       },
       {
         "command": "granite.fixCode",
         "category": "Granite.Code",
         "title": "Fix this Code",
-        "group": "Granite.Code"
+        "group": "Granite.Code",
+        "enablement": "granite.initialized"
       },
       {
         "command": "granite.optimizeCode",
         "category": "Granite.Code",
         "title": "Optimize this Code",
-        "group": "Granite.Code"
+        "group": "Granite.Code",
+        "enablement": "granite.initialized"
       },
       {
         "command": "granite.fixGrammar",
         "category": "Granite.Code",
         "title": "Fix Grammar / Spelling",
-        "group": "Granite.Code"
+        "group": "Granite.Code",
+        "enablement": "granite.initialized"
       },
       {
         "command": "granite.codebaseForceReIndex",
         "category": "Granite.Code",
         "title": "Codebase Force Re-Index",
-        "group": "Granite.Code"
+        "group": "Granite.Code",
+        "enablement": "granite.initialized"
       },
       {
         "command": "granite.rebuildCodebaseIndex",
         "category": "Granite.Code",
         "title": "Rebuild codebase index",
-        "group": "Granite.Code"
+        "group": "Granite.Code",
+        "enablement": "granite.initialized"
       },
       {
         "command": "granite.docsIndex",
         "category": "Granite.Code",
         "title": "Docs Index",
-        "group": "Granite.Code"
+        "group": "Granite.Code",
+        "enablement": "granite.initialized"
       },
       {
         "command": "granite.docsReIndex",
         "category": "Granite.Code",
         "title": "Docs Force Re-Index",
-        "group": "Granite.Code"
+        "group": "Granite.Code",
+        "enablement": "granite.initialized"
       },
       {
         "command": "granite.focusContinueSessionId",
         "category": "Granite.Code",
         "title": "Focus Granite.Code Chat",
-        "group": "Granite.Code"
+        "group": "Granite.Code",
+        "enablement": "granite.initialized"
       },
       {
         "command": "granite.writeContinueConfig",
         "title": "Write Continue Config",
         "category": "Granite.Code",
-        "group": "Granite.Code"
+        "group": "Granite.Code",
+        "enablement": "granite.initialized"
       },
       {
         "command": "granite.setup",
@@ -564,14 +594,14 @@
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "continue",
+          "id": "granite",
           "title": "Granite.Code",
           "icon": "media/sidebar-icon.png"
         }
       ]
     },
     "views": {
-      "continue": [
+      "granite": [
         {
           "type": "webview",
           "id": "granite.graniteGUIView",
