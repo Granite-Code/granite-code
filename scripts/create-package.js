@@ -339,8 +339,6 @@ function expandPackageConfigurationEntry(entry, platforms, target) {
     },
   );
 
-  if (expandedEntries.length === 0) expandedEntries = [entry];
-
   return expandedEntries;
 }
 
