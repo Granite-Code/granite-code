@@ -63,11 +63,13 @@ const installConfiguration = {
         "package-dependencies/{package_dependencies_platform}/node_modules/sqlite3/build/Release/node_sqlite3.node",
       ],
       outputDir: "../build",
-    },
-    {
-      description: "Lancedb for in-tree testing",
-      inputModules: ["lancedb"],
-      outputDir: "../node_modules",
+      platforms: [`${process.platform}-${process.arch}`],
+     },
+     {
+       description: "Lancedb for in-tree testing",
+       inputModules: ["lancedb"],
+       outputDir: "../node_modules",
+       platforms: [`${process.platform}-${process.arch}`],
     },
     {
       description: "XML Http Request Worker",
