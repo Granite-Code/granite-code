@@ -9,7 +9,7 @@ This repository is used to build the Granite.Code extension
 for Visual Studio Code.
 
 The Granite.Code vscode extension is based on
-[Continue](https://github.com/continuedev/continue),C
+[Continue](https://github.com/continuedev/continue),
 but with a number of changes, including:
 
 - A setup wizard that guides the user through downloading and installing Ollama and the Granite model.
