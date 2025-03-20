@@ -74,7 +74,7 @@ jobs:
           npx @vscode/vsce publish -p ${{ secrets.VSCODE_MARKETPLACE_TOKEN }} --pre-release -i build/*win32-x64*.vsix
 
       - name: Publish Packages to VS Code Marketplace
-              run: |
+        run: |
           npx ovsx publish -p ${{ secrets.OVSX_MARKETPLACE_TOKEN }} --pre-release -i build/*darwin-arm64*.vsix
           npx ovsx publish -p ${{ secrets.OVSX_MARKETPLACE_TOKEN }} --pre-release -i build/*linux-x64*.vsix
           npx ovsx publish -p ${{ secrets.OVSX_MARKETPLACE_TOKEN }} --pre-release -i build/*win32-x64*.vsix
