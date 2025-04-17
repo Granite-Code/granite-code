@@ -65,7 +65,7 @@ const packageConfiguration = {
     },
     {
       description: "Tutorial file",
-      inputFiles: ["continue/extensions/vscode/continue_tutorial.py"],
+      inputFiles: ["continue/extensions/vscode/granitecode_tutorial.py"],
     },
     {
       description: "x86-64 Linux binary libraries for reading ONNX files",
