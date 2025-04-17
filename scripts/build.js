@@ -74,6 +74,10 @@ const namespaceTransformPlugin = makeTransformPlugin({
       pattern: /continueGUI/,
       replacement: "graniteGUI",
     },
+    {
+      pattern: /continueConsole/,
+      replacement: "graniteConsole",
+    },
   ],
 });
 
