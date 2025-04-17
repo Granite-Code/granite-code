@@ -59,7 +59,9 @@ jobs:
           npm version $(git describe --tags --abbrev=0) --no-git-tag-version --allow-same-version
 
       - name: Build Extension
-        run: npm run build
+        run: |
+          (cd continue/packages/config-yaml && npm run build)
+          npm run build
 
       - name: Create Packages
         run: |
