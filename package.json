@@ -139,6 +139,11 @@
           "default": false,
           "markdownDescription": "Pause Granite.Code's codebase index on start."
         },
+        "granite.enableConsole": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "Enable a console to log and explore model inputs and outputs. It can be found in the bottom panel."
+        },
         "granite.remoteConfigServerUrl": {
           "type": "string",
           "default": null,
@@ -162,6 +167,12 @@
           ],
           "default": "large",
           "description": "Whether to use a small or large local model. Small models are faster but less accurate."
+        },
+        "granite.checkModelUpdates": {
+          "type": "boolean",
+          "default": true,
+          "title": "Check For Model Updates",
+          "description": "Controls whether a daily check is performed for Granite.Code model updates"
         }
       }
     },
@@ -291,17 +302,17 @@
         "enablement": "granite.initialized"
       },
       {
-        "command": "granite.navigateTo",
+        "command": "granite.clearConsole",
         "category": "Granite.Code",
-        "title": "Navigate to a path",
+        "title": "Clear Console",
+        "icon": "$(clear-all)",
         "group": "Granite.Code",
         "enablement": "granite.initialized"
       },
       {
-        "command": "granite.openMorePage",
+        "command": "granite.navigateTo",
         "category": "Granite.Code",
-        "title": "More",
-        "icon": "$(ellipsis)",
+        "title": "Navigate to a path",
         "group": "Granite.Code",
         "enablement": "granite.initialized"
       },
@@ -369,7 +380,7 @@
         "enablement": "granite.initialized"
       },
       {
-        "command": "granite.focusContinueSessionId",
+        "command": "granite.focusContinueInput",
         "category": "Granite.Code",
         "title": "Focus Granite.Code Chat",
         "group": "Granite.Code",
@@ -567,9 +578,14 @@
           "when": "view == granite.graniteGUIView"
         },
         {
-          "command": "granite.openMorePage",
-          "group": "navigation@6",
+          "command": "granite.openConfigPage",
+          "group": "navigation@4",
           "when": "view == granite.graniteGUIView"
+        },
+        {
+          "command": "granite.clearConsole",
+          "group": "navigation@1",
+          "when": "view == granite.graniteConsoleView"
         }
       ],
       "editor/title": [
@@ -598,6 +614,13 @@
           "title": "Granite.Code",
           "icon": "media/sidebar-icon.png"
         }
+      ],
+      "panel": [
+        {
+          "id": "graniteConsole",
+          "title": "Granite.Code Console",
+          "icon": "$(window)"
+        }
       ]
     },
     "views": {
@@ -608,6 +631,16 @@
           "name": "Granite.Code",
           "icon": "media/sidebar-icon.png",
           "visibility": "visible"
+        }
+      ],
+      "graniteConsole": [
+        {
+          "type": "webview",
+          "id": "granite.graniteConsoleView",
+          "name": "Granite.Code Console",
+          "icon": "$(window)",
+          "visibility": "visible",
+          "when": "config.granite.enableConsole"
         }
       ]
     },

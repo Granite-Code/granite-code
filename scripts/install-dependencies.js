@@ -11,6 +11,10 @@ let minimatch;
 const dependencyConfiguration = {
   entries: [
     {
+      description: "config-yaml dependencies",
+      packageDir: "./continue/packages/config-yaml",
+    },
+    {
       description: "Backend dependencies",
       packageDir: "./continue/core",
     },
@@ -64,12 +68,12 @@ const installConfiguration = {
       ],
       outputDir: "../build",
       platforms: [`${process.platform}-${process.arch}`],
-     },
-     {
-       description: "Lancedb for in-tree testing",
-       inputModules: ["lancedb"],
-       outputDir: "../node_modules",
-       platforms: [`${process.platform}-${process.arch}`],
+    },
+    {
+      description: "Lancedb for in-tree testing",
+      inputModules: ["lancedb"],
+      outputDir: "../node_modules",
+      platforms: [`${process.platform}-${process.arch}`],
     },
     {
       description: "XML Http Request Worker",

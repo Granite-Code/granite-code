@@ -377,6 +377,12 @@ async function copyPackageAssets(target) {
   }
 }
 
+async function buildConfigYaml() {
+  console.log("\nBuilding @continuedev/config-yaml…");
+  const guiDir = path.resolve(projectRoot, "continue/packages/config-yaml");
+  await runCommand("npm: ", `${NPM} run build`, guiDir);
+}
+
 async function buildSidebarUi() {
   console.log("\nBuilding Sidebar UI…");
   const guiDir = path.resolve(projectRoot, "continue/gui/");
@@ -432,6 +438,7 @@ async function main() {
 
   await fs.mkdir("build", { recursive: true });
   await purgePackageAssets();
+  await buildConfigYaml();
   await buildSidebarUi();
   await copyPackageAssets(target);
   await runVsce(isRelease, target);

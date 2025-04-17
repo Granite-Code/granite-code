@@ -36,7 +36,22 @@
     },
 
     {
+      "label": "Build config-yaml",
+      "type": "shell",
+      "command": "npm",
+      "options": {
+        "cwd": "${workspaceFolder}/continue/packages/config-yaml"
+      },
+      "args": ["run", "build"],
+      "problemMatcher": [],
+      "group": {
+        "kind": "build"
+      }
+    },
+
+    {
       "label": "Build extension",
+      "dependsOn": ["Build config-yaml"],
       "type": "npm",
       "script": "build",
       "problemMatcher": [],
@@ -49,6 +64,7 @@
     // Start the React App for debugging with Vite
     {
       "label": "Dev GUI",
+      "dependsOn": ["Build config-yaml"],
       "type": "shell",
       "command": "npm",
       "options": {
