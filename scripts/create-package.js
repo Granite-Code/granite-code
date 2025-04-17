@@ -61,6 +61,7 @@ const packageConfiguration = {
       description: "Ollama launcher script",
       inputFiles: ["continue/core/util/start_ollama.sh"],
       platforms: ["linux-*"],
+      outputDir: "out/",
     },
     {
       description: "Tutorial file",
