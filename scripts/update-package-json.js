@@ -95,6 +95,15 @@ async function main() {
   delete newGraniteContributes["configuration"]["properties"][
     "granite.enableContinueForTeams"
   ];
+  delete newGraniteContributes["configuration"]["properties"][
+    "granite.remoteConfigServerUrl"
+  ];
+  delete newGraniteContributes["configuration"]["properties"][
+    "granite.remoteConfigSyncPeriod"
+  ];
+  delete newGraniteContributes["configuration"]["properties"][
+    "granite.userToken"
+  ];
 
   if (!compare(newGraniteContributes, oldGraniteContributes)) {
     granitePackageJson["contributes"] = newGraniteContributes;
