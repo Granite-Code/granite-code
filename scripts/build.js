@@ -31,12 +31,15 @@ const makeTransformPlugin = ({ name, basePath, substitutions }) => {
     // using ts-morph or similar. We only care about simple strings
     // like "continue.acceptDiff", so we can simplify matching
     // strings in the source code.
-    return fileContents.replace(/"([^"\\\r\n]+)"/g, (m, strContents) => {
-      for (const { pattern, replacement } of substitutions) {
-        strContents = strContents.replace(pattern, replacement);
-      }
-      return '"' + strContents + '"';
-    });
+    return fileContents.replace(
+      /"([^"\\\r\n]+)"(?! *(?:\/\*|\/\/) *no-transform)/g,
+      (m, strContents) => {
+        for (const { pattern, replacement } of substitutions) {
+          strContents = strContents.replace(pattern, replacement);
+        }
+        return '"' + strContents + '"';
+      },
+    );
   };
 
   return {
