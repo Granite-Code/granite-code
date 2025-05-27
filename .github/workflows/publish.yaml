@@ -36,7 +36,7 @@ jobs:
       - name: Checkout Extension
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.events.inputs.EXTENSION_TAG }}
+          ref: ${{ github.event.inputs.EXTENSION_TAG }}
           fetch-depth: 0
           filter: blob:none
 
