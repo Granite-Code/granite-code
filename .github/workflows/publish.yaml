@@ -55,7 +55,7 @@ jobs:
         run: |
           git config --global user.email "workflow@granitecode.ai"
           git config --global user.name "Automated Workflow"
-          npm run tag-prerelease
+          npm run tag-snapshot
           npm version $(git describe --tags --abbrev=0) --no-git-tag-version --allow-same-version
 
       - name: Build Extension
