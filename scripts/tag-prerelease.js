@@ -11,13 +11,6 @@ async function readPackageJson(relativePath) {
   return JSON.parse(packageJsonContents);
 }
 
-function formatDate(currentDate) {
-  const year = currentDate.getFullYear();
-  const month = (currentDate.getMonth() + 1).toString().padStart(2, "0");
-  const day = currentDate.getDate().toString().padStart(2, "0");
-  return `${year}${month}${day}`;
-}
-
 async function getExistingTags(pattern) {
   const { stdout } = await execAsync(`git tag --list "${pattern}"`);
   return stdout.split("\n").filter((tag) => tag.trim() !== "");
