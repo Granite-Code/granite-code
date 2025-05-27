@@ -1,26 +1,22 @@
-const { readFile } = require("fs/promises");
-const path = require("node:path");
 const { exec } = require("node:child_process");
+const path = require("path");
 const util = require("node:util");
 const execAsync = util.promisify(exec);
-const { runCommand } = require("./utils.js");
-
-async function readPackageJson(relativePath) {
-  const packageJsonPath = path.resolve(__dirname, relativePath);
-  const packageJsonContents = await readFile(packageJsonPath);
-  return JSON.parse(packageJsonContents);
-}
+const {
+  runCommand,
+  readPackageJson,
+  writePackageJson
+} = require("./utils.js");
 
 async function getExistingTags(pattern) {
   const { stdout } = await execAsync(`git tag --list "${pattern}"`);
   return stdout.split("\n").filter((tag) => tag.trim() !== "");
 }
 
-async function determineNextPatchVersion(currentVersion) {
-  const [major, minor, _] = currentVersion.split(".");
-  const minorNum = parseInt(minor, 10);
+async function determineNextUnstableVersion(currentVersion) {
+  const [major, minor, _] = currentVersion.split(".").map(Number);
 
-  if (minorNum % 2 === 0) {
+  if (minor % 2 === 0) {
     throw new Error(
       `Cannot tag pre-release for ${major}.${minor} series since it is an official release`,
     );
@@ -40,13 +36,56 @@ async function determineNextPatchVersion(currentVersion) {
   return `${major}.${minor}.${nextPatch}`;
 }
 
-async function main() {
-  const package = await readPackageJson("../package.json");
-  const currentVersion = package.version;
-  const version = await determineNextPatchVersion(currentVersion);
+async function determineNextStableVersion(currentVersion) {
+    const [major, minor, _] = currentVersion.split(".").map(Number);
+    let stableMinor = minor + 1;
 
-  console.log(`Tagging prerelease ${version}`);
+    if (stableMinor % 2 != 0)
+      stableMinor++;
+
+    return `${major}.${stableMinor}.0`;
+}
+
+async function doSnapshot(packageDir) {
+  const packageJsonPath = path.join(packageDir, "package.json");
+  const packageLockPath = path.join(packageDir, "package-lock.json");
+  const packageObject = await readPackageJson(packageJsonPath);
+  const currentVersion = packageObject.version;
+  const version = await determineNextUnstableVersion(currentVersion);
+
+  console.log(`Tagging snapshot ${version}`);
   await runCommand("git:     ", ["git", "tag", "-a", version, "-m", version]);
+
+  // Update package.json so packages can be built, but don't commit result
+  packageObject.version = version;
+  await writePackageJson(packageJsonPath, packageObject);
+}
+
+async function doRelease(packageDir) {
+  const packageJsonPath = path.join(packageDir, "package.json");
+  const packageLockPath = path.join(packageDir, "package-lock.json");
+  const packageObject = await readPackageJson(packageJsonPath);
+  const currentVersion = packageObject.version;
+  const version = await determineNextStableVersion(currentVersion);
+
+  packageObject.version = version;
+  await writePackageJson(packageJsonPath, packageObject);
+  await runCommand("npm:     ", "npm install --package-lock-only");
+  const fileList = [packageJsonPath, packageLockPath];
+  await runCommand("git:     ", ["git", "add", ...fileList]);
+  await runCommand("git:     ", ["git", "commit", "-m", `Release ${version}`]);
+
+  console.log(`Tagging release ${version}`);
+  await runCommand("git:     ", ["git", "tag", "-a", version, "-m", version]);
+}
+
+async function main() {
+  const args = process.argv.slice(2);
+  if (args.includes("--snapshot")) {
+    await doSnapshot("..");
+  } else {
+    await doRelease("..");
+  }
 }
 
 main().catch((error) => {

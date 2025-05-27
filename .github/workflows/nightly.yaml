@@ -13,6 +13,7 @@ jobs:
     with:
       extension_tag: main
       force: false
+      is_snapshot: true
     secrets:
       VSCODE_MARKETPLACE_TOKEN: ${{ secrets.VSCODE_MARKETPLACE_TOKEN }}
       OVSX_MARKETPLACE_TOKEN: ${{ secrets.OVSX_MARKETPLACE_TOKEN }}

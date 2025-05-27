@@ -1,4 +1,4 @@
-# publishing code used by nightly workflow
+# publishing code used by nightly and on-demand workflows
 #
 on:
   workflow_call:
@@ -11,6 +11,10 @@ on:
         description: "Force publication even if repository hasn't changed"
         default: false
         type: boolean
+      is_snapshot:
+        type: boolean
+        required: true
+        description: "true for snapshot, false for full release"
     secrets:
       VSCODE_MARKETPLACE_TOKEN:
         required: true
@@ -55,13 +59,18 @@ jobs:
       - name: Install Dependencies
         run: npm run install-dependencies
 
-      - name: Tag Snapshot
+      - name: Tag Release/Snapshot
         run: |
           git config --global user.email "workflow@granitecode.ai"
           git config --global user.name "Automated Workflow"
 
-          npm run tag-snapshot
-          npm version $(git describe --tags --abbrev=0) --no-git-tag-version --allow-same-version
+          if ${{ inputs.is_snapshot }}; then
+            npm run tag-snapshot
+            echo "PUBLISH_FLAG=--pre-release" >> $GITHUB_ENV
+          else
+            npm run tag-release
+            echo "PUBLISH_FLAG=" >> $GITHUB_ENV
+          fi
 
       - name: Build Extension
         run: |
@@ -78,7 +87,7 @@ jobs:
         run: |
           npx @vscode/vsce publish \
             -p ${{ secrets.VSCODE_MARKETPLACE_TOKEN }} \
-            --pre-release \
+            $PUBLISH_FLAG \
             -i build/*darwin-arm64*.vsix \
             -i build/*linux-x64*.vsix \
             -i build/*win32-x64*.vsix
@@ -87,11 +96,11 @@ jobs:
         run: |
           npx ovsx publish \
             -p ${{ secrets.OVSX_MARKETPLACE_TOKEN }} \
-            --pre-release \
+            $PUBLISH_FLAG \
             -i build/*darwin-arm64*.vsix \
             -i build/*linux-x64*.vsix \
             -i build/*win32-x64*.vsix
 
-      - name: Push Tag to Git Repository
-        run: git push origin --tags
+      - name: Push Changes to Git Repository
+        run: git push origin --follow-tags HEAD
 

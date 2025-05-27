@@ -1,0 +1,31 @@
+name: On-Demand Publish
+
+permissions:
+  contents: write
+
+on:
+  workflow_dispatch:
+    inputs:
+      EXTENSION_TAG:
+        description: "branch/tag of the extension to build."
+        type: string
+        default: main
+
+      RELEASE_TYPE:
+        description: "Publish as snapshot or full release"
+        type: choice
+        options:
+          - snapshot
+          - release
+        default: release
+
+jobs:
+  publish:
+    uses: ./.github/workflows/publish.yaml
+    with:
+      extension_tag: ${{ github.event.inputs.EXTENSION_TAG }}
+      force: true
+      is_snapshot: ${{ github.event.inputs.RELEASE_TYPE == 'snapshot' }}
+    secrets:
+      VSCODE_MARKETPLACE_TOKEN: ${{ secrets.VSCODE_MARKETPLACE_TOKEN }}
+      OVSX_MARKETPLACE_TOKEN: ${{ secrets.OVSX_MARKETPLACE_TOKEN }}
