@@ -1,9 +1,22 @@
+const { readFile, writeFile } = require("fs/promises");
 const path = require("path");
 const { spawn } = require("child_process");
 const { Transform } = require("stream");
 
 exports.NPM = process.platform == "win32" ? "npm.cmd" : "npm";
 exports.NPX = process.platform == "win32" ? "npx.cmd" : "npx";
+
+async function readPackageJson(relativePath) {
+  const packageJsonPath = path.resolve(__dirname, relativePath);
+  const packageJsonContents = await readFile(packageJsonPath);
+  return JSON.parse(packageJsonContents);
+}
+
+async function writePackageJson(relativePath, jsonContents) {
+  const packageJsonPath = path.resolve(__dirname, relativePath);
+  const strContents = JSON.stringify(jsonContents, null, 2) + "\n";
+  await writeFile(packageJsonPath, strContents);
+}
 
 function waitForSubprocess(subprocess, command) {
   return new Promise((resolve, reject) => {
