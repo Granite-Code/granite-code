@@ -1,0 +1,19 @@
+name: Nightly Snapshot
+
+permissions:
+  contents: write
+
+on:
+  schedule:
+    - cron: "0 8 * * *"
+
+jobs:
+  publish:
+    uses: ./.github/workflows/publish.yaml
+    with:
+      extension_tag: main
+      force: false
+    secrets:
+      VSCODE_MARKETPLACE_TOKEN: ${{ secrets.VSCODE_MARKETPLACE_TOKEN }}
+      OVSX_MARKETPLACE_TOKEN: ${{ secrets.OVSX_MARKETPLACE_TOKEN }}
+
