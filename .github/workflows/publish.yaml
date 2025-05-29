@@ -15,6 +15,16 @@ on:
         type: boolean
         required: true
         description: "true for snapshot, false for full release"
+      skip_publication:
+        description: "if true, skip publication to VSCE and OpenVSX marketplaces"
+        type: boolean
+        required: false
+        default: false
+      skip_repository_push:
+        description: "if true, skip the git push or tags and commits"
+        type: boolean
+        required: false
+        default: false
     secrets:
       VSCODE_MARKETPLACE_TOKEN:
         required: true
@@ -84,6 +94,7 @@ jobs:
           npm run create-win32-x64-package
 
       - name: Publish Packages to VS Code Marketplace
+        if: inputs.skip_publication == false
         run: |
           npx @vscode/vsce publish \
             -p ${{ secrets.VSCODE_MARKETPLACE_TOKEN }} \
@@ -93,6 +104,7 @@ jobs:
             -i build/*win32-x64*.vsix
 
       - name: Publish Packages to OpenVSX Registry
+        if: inputs.skip_publication == false
         run: |
           npx ovsx publish \
             -p ${{ secrets.OVSX_MARKETPLACE_TOKEN }} \
@@ -102,5 +114,6 @@ jobs:
             -i build/*win32-x64*.vsix
 
       - name: Push Changes to Git Repository
+        if: inputs.skip_repository_push == false
         run: git push origin --follow-tags HEAD
 

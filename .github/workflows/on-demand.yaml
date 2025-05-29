@@ -19,6 +19,16 @@ on:
           - release
         default: release
 
+      SKIP_PUBLICATION:
+        description: "Skip publication to marketplaces?"
+        type: boolean
+        default: false
+
+      SKIP_REPOSITORY_PUSH:
+        description: "Skip pushing tags/commits back to the repo?"
+        type: boolean
+        default: false
+
 jobs:
   publish:
     uses: ./.github/workflows/publish.yaml
@@ -26,6 +36,8 @@ jobs:
       extension_tag: ${{ github.event.inputs.EXTENSION_TAG }}
       force: true
       is_snapshot: ${{ github.event.inputs.RELEASE_TYPE == 'snapshot' }}
+      skip_publication: ${{ github.event.inputs.SKIP_PUBLICATION }}
+      skip_repository_push: ${{ github.event.inputs.SKIP_REPOSITORY_PUSH }}
     secrets:
       VSCODE_MARKETPLACE_TOKEN: ${{ secrets.VSCODE_MARKETPLACE_TOKEN }}
       OVSX_MARKETPLACE_TOKEN: ${{ secrets.OVSX_MARKETPLACE_TOKEN }}
