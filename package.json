@@ -443,11 +443,6 @@
         "key": "ctrl+i"
       },
       {
-        "command": "granite.focusEditWithoutClear",
-        "mac": "cmd+shift+i",
-        "key": "ctrl+shift+i"
-      },
-      {
         "command": "granite.exitEditMode",
         "mac": "escape",
         "key": "escape",
@@ -637,6 +632,10 @@
       {
         "fileMatch": ".continuerc.json",
         "url": "./continue_rc_schema.json"
+      },
+      {
+        "fileMatch": "**/config.yaml",
+        "url": "./config-yaml-schema.json"
       }
     ]
   }
