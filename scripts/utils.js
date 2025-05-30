@@ -11,12 +11,14 @@ async function readPackageJson(relativePath) {
   const packageJsonContents = await readFile(packageJsonPath);
   return JSON.parse(packageJsonContents);
 }
+exports.readPackageJson = readPackageJson;
 
 async function writePackageJson(relativePath, jsonContents) {
   const packageJsonPath = path.resolve(__dirname, relativePath);
   const strContents = JSON.stringify(jsonContents, null, 2) + "\n";
   await writeFile(packageJsonPath, strContents);
 }
+exports.writePackageJson = writePackageJson;
 
 function waitForSubprocess(subprocess, command) {
   return new Promise((resolve, reject) => {
