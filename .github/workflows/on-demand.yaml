@@ -36,8 +36,8 @@ jobs:
       extension_tag: ${{ github.event.inputs.EXTENSION_TAG }}
       force: true
       is_snapshot: ${{ github.event.inputs.RELEASE_TYPE == 'snapshot' }}
-      skip_publication: ${{ github.event.inputs.SKIP_PUBLICATION }}
-      skip_repository_push: ${{ github.event.inputs.SKIP_REPOSITORY_PUSH }}
+      skip_publication: ${{ github.event.inputs.SKIP_PUBLICATION == 'true' }}
+      skip_repository_push: ${{ github.event.inputs.SKIP_REPOSITORY_PUSH == 'true' }}
     secrets:
       VSCODE_MARKETPLACE_TOKEN: ${{ secrets.VSCODE_MARKETPLACE_TOKEN }}
       OVSX_MARKETPLACE_TOKEN: ${{ secrets.OVSX_MARKETPLACE_TOKEN }}
