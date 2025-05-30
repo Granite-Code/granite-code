@@ -6,20 +6,7 @@
 //  - Replaces "Continue" with "Granite.Code" for human-readable strings
 //  - Removes unwanted commands
 
-const { readFile, writeFile } = require("fs/promises");
-const path = require("node:path");
-
-async function readPackageJson(relativePath) {
-  const packageJsonPath = path.resolve(__dirname, relativePath);
-  const packageJsonContents = await readFile(packageJsonPath);
-  return JSON.parse(packageJsonContents);
-}
-
-async function writePackageJson(relativePath, jsonContents) {
-  const packageJsonPath = path.resolve(__dirname, relativePath);
-  const strContents = JSON.stringify(jsonContents, null, 2) + "\n";
-  await writeFile(packageJsonPath, strContents);
-}
+const { readPackageJson, writePackageJson } = require("./utils.js");
 
 function transform(data) {
   if (data == null) {

@@ -60,7 +60,8 @@
     "create-darwin-arm64-package": "node scripts/create-package.js --target darwin-arm64",
     "create-linux-x64-package": "node scripts/create-package.js --target linux-x64",
     "create-win32-x64-package": "node scripts/create-package.js --target win32-x64",
-    "tag-prerelease": "node scripts/tag-prerelease.js",
+    "tag-release": "node scripts/tag-release.js",
+    "tag-snapshot": "node scripts/tag-release.js --snapshot",
     "update-package-json": "node scripts/update-package-json.js"
   },
   "devDependencies": {
