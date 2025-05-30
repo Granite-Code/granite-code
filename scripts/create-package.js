@@ -68,6 +68,12 @@ const packageConfiguration = {
       inputFiles: ["continue/extensions/vscode/granitecode_tutorial.py"],
     },
     {
+      description: "config.yaml schema file",
+      inputFiles: [
+        "continue/packages/config-yaml/schema/config-yaml-schema.json",
+      ],
+    },
+    {
       description: "x86-64 Linux binary libraries for reading ONNX files",
       inputFiles: [
         "continue/core/node_modules/onnxruntime-node/bin/napi-v3/linux/x64/*",
@@ -380,8 +386,12 @@ async function copyPackageAssets(target) {
 
 async function buildConfigYaml() {
   console.log("\nBuilding @continuedev/config-yaml…");
-  const guiDir = path.resolve(projectRoot, "continue/packages/config-yaml");
-  await runCommand("npm: ", `${NPM} run build`, guiDir);
+  const configYamlDir = path.resolve(
+    projectRoot,
+    "continue/packages/config-yaml",
+  );
+  await runCommand("npm: ", `${NPM} run build`, configYamlDir);
+  await runCommand("npm: ", `${NPM} run generate-schema`, configYamlDir);
 }
 
 async function buildSidebarUi() {
