@@ -1,5 +1,6 @@
 /bin
 /build
+/config-yaml-schema.json
 /granitecode_tutorial.py
 /gui
 /media
