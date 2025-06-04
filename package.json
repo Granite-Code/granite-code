@@ -105,11 +105,6 @@
     "configuration": {
       "title": "Granite.Code",
       "properties": {
-        "granite.telemetryEnabled": {
-          "type": "boolean",
-          "default": true,
-          "markdownDescription": "Granite.Code collects anonymous usage data, cleaned of PII, to help us improve the product for our users. Read more  at [continue.dev › Telemetry](https://docs.continue.dev/telemetry)."
-        },
         "granite.showInlineTip": {
           "type": "boolean",
           "default": true,
