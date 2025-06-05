@@ -80,11 +80,12 @@ async function doRelease(packageDir) {
 }
 
 async function main() {
+  const toplevelSourceDir = path.join(__dirname, "..");
   const args = process.argv.slice(2);
   if (args.includes("--snapshot")) {
-    await doSnapshot("..");
+    await doSnapshot(toplevelSourceDir);
   } else {
-    await doRelease("..");
+    await doRelease(toplevelSourceDir);
   }
 }
 
