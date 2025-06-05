@@ -16,24 +16,28 @@ async function getExistingTags(pattern) {
 async function determineNextUnstableVersion(currentVersion) {
   const [major, minor, _] = currentVersion.split(".").map(Number);
 
-  if (minor % 2 === 0) {
-    throw new Error(
-      `Cannot tag pre-release for ${major}.${minor} series since it is an official release`,
-    );
-  }
-
-  const pattern = `${major}.${minor}.*`;
-  const tags = await getExistingTags(pattern);
-
+  let tags = await getExistingTags(`${major}.${minor}.*`);
   if (tags.length === 0) return `${currentVersion}`;
 
-  const patchVersions = tags.map((tag) => {
-    const parts = tag.trim().split(".");
-    return parseInt(parts[2], 10);
-  });
+  let nextMinor = minor;
+  if (nextMinor % 2 === 0) {
+    nextMinor++;
+    tags = await getExistingTags(`${major}.${nextMinor}.*`);
+  }
 
-  const nextPatch = Math.max(...patchVersions) + 1;
-  return `${major}.${minor}.${nextPatch}`;
+  let nextPatch;
+  if (tags.length > 0) {
+    const patchVersions = tags.map((tag) => {
+      const parts = tag.trim().split(".");
+      return parseInt(parts[2], 10);
+    });
+
+    nextPatch = Math.max(...patchVersions) + 1;
+  } else {
+    nextPatch = 0;
+  }
+
+  return `${major}.${nextMinor}.${nextPatch}`;
 }
 
 async function determineNextStableVersion(currentVersion) {
