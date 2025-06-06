@@ -76,9 +76,11 @@ jobs:
 
           if ${{ inputs.is_snapshot }}; then
             npm run tag-snapshot
+            echo "PACKAGE_FLAG=--snapshot" >> $GITHUB_ENV
             echo "PUBLISH_FLAG=--pre-release" >> $GITHUB_ENV
           else
             npm run tag-release
+            echo "PACKAGE_FLAG=" >> $GITHUB_ENV
             echo "PUBLISH_FLAG=" >> $GITHUB_ENV
           fi
 
@@ -89,9 +91,9 @@ jobs:
 
       - name: Create Packages
         run: |
-          npm run create-darwin-arm64-package
-          npm run create-linux-x64-package
-          npm run create-win32-x64-package
+          npm run create-darwin-arm64-package -- $PACKAGE_FLAG
+          npm run create-linux-x64-package -- $PACKAGE_FLAG
+          npm run create-win32-x64-package -- $PACKAGE_FLAG
 
       - name: Publish Packages to VS Code Marketplace
         if: inputs.skip_publication == false

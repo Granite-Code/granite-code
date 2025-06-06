@@ -400,7 +400,7 @@ async function buildSidebarUi() {
   await runCommand("npm: ", `${NPM} run build`, guiDir);
 }
 
-async function runVsce(isRelease, target) {
+async function runVsce(isSnapshot, target) {
   console.log("\nPackaging extension…");
   let command = [
     NPX,
@@ -412,7 +412,7 @@ async function runVsce(isRelease, target) {
     "README.marketplace.md",
   ];
 
-  if (!isRelease) {
+  if (isSnapshot) {
     command.push("--pre-release");
   }
   command.push("--no-dependencies");
@@ -425,7 +425,7 @@ async function runVsce(isRelease, target) {
 
 function parseCommandLine(args) {
   let target = null;
-  let isRelease = false;
+  let isSnapshot = false;
 
   for (let i = 0; i < args.length; i++) {
     if (args[i] === "--target") {
@@ -434,25 +434,25 @@ function parseCommandLine(args) {
       }
       target = args[i + 1];
       i++;
-    } else if (args[i] === "--release") {
-      isRelease = true;
+    } else if (args[i] === "--snapshot") {
+      isSnapshot = true;
     } else {
       throw new Error(`Unknown argument: ${args[i]}`);
     }
   }
 
-  return { target, isRelease };
+  return { target, isSnapshot };
 }
 
 async function main() {
-  const { target, isRelease } = parseCommandLine(process.argv.slice(2));
+  const { target, isSnapshot } = parseCommandLine(process.argv.slice(2));
 
   await fs.mkdir("build", { recursive: true });
   await purgePackageAssets();
   await buildConfigYaml();
   await buildSidebarUi();
   await copyPackageAssets(target);
-  await runVsce(isRelease, target);
+  await runVsce(isSnapshot, target);
 }
 
 main().catch((e) => {
