@@ -91,6 +91,9 @@ async function main() {
   delete newGraniteContributes["configuration"]["properties"][
     "granite.userToken"
   ];
+  delete newGraniteContributes["configuration"]["properties"][
+    "granite.telemetryEnabled"
+  ];
 
   if (!compare(newGraniteContributes, oldGraniteContributes)) {
     granitePackageJson["contributes"] = newGraniteContributes;
