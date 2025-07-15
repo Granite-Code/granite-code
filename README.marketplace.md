@@ -4,6 +4,8 @@ Granite.Code is an open-source AI code assistant
 using the [IBM Granite model family](https://www.ibm.com/granite).
 The models running locally on your system.
 
+For a comprehensive installation guide and usage instructions, visit the official [Granite.Code Documentation](https://docs.granitecode.ai/).
+
 Features include:
 
 - Chat with the AI model to get help and suggestions
