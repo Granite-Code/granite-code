@@ -38,13 +38,39 @@ jobs:
       repo-cache-hit: ${{ steps.cache.outputs.cache-hit }}
     steps:
       - uses: actions/checkout@v4
-      - run: git rev-parse HEAD >> ./HEAD
+
+      - name: Update Continue Submodule to granite/customization
+        run: |
+          git submodule update --init --recursive
+          cd continue
+          git fetch origin granite/customization
+          git checkout FETCH_HEAD
+          cd ..
+          git add continue
+
+      - name: Get Main Repo Commit Hash
+        run: git rev-parse HEAD > ./HEAD
+
+      - name: Get Continue Submodule Commit Hash
+        run: git -C continue rev-parse HEAD > ./CONTINUE_SUBMODULE_HASH
+
       - name: Check New Changes
         id: cache
         uses: actions/cache@v4
         with:
-          path: HEAD
-          key: HEAD-${{ hashFiles('HEAD') }}
+          path: |
+            HEAD
+            CONTINUE_SUBMODULE_HASH
+          key: HEAD-${{ hashFiles('HEAD') }}-CONTINUE-${{ hashFiles('CONTINUE_SUBMODULE_HASH') }}
+
+      - name: Commit and push submodule update
+        run: |
+          if [[ -n "$(git status --porcelain continue)" ]]; then
+            git config user.email "action@github.com"
+            git config user.name "GitHub Action"
+            git commit -m "chore: update continue submodule to latest granite/customization"
+            git push origin HEAD:${{ github.ref }}
+          fi
 
   publish-packages:
     needs: updates-check
@@ -118,4 +144,3 @@ jobs:
       - name: Push Changes to Git Repository
         if: inputs.skip_repository_push == false
         run: git push origin --follow-tags HEAD
-
