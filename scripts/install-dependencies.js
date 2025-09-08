@@ -15,6 +15,22 @@ const dependencyConfiguration = {
       packageDir: "./continue/packages/config-yaml",
     },
     {
+      description: "config-types dependencies",
+      packageDir: "./continue/packages/config-types",
+    },
+    {
+      description: "fetch dependencies",
+      packageDir: "./continue/packages/fetch",
+    },
+    {
+      description: "llm-info dependencies",
+      packageDir: "./continue/packages/llm-info",
+    },
+    {
+      description: "openai-adapters dependencies",
+      packageDir: "./continue/packages/openai-adapters",
+    },
+    {
       description: "Backend dependencies",
       packageDir: "./continue/core",
     },
