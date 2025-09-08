@@ -112,6 +112,7 @@ jobs:
 
       - name: Build Extension
         run: |
+          (cd continue/packages/openai-adapters && npm run build)
           (cd continue/packages/config-yaml && npm run build)
           npm run build
 

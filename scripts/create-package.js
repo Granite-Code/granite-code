@@ -394,6 +394,20 @@ async function buildConfigYaml() {
   await runCommand("npm: ", `${NPM} run generate-schema`, configYamlDir);
 }
 
+async function buildPackages() {
+  const packages = [
+    "openai-adapters",
+    "config-types",
+    "fetch",
+    "llm-info",
+  ];
+  for (const package of packages) {
+    console.log(`\nBuilding @continuedev/${package}…`);
+    const packageDir = path.resolve(projectRoot, `continue/packages/${package}`);
+    await runCommand("npm: ", `${NPM} run build`, packageDir);
+  }
+}
+
 async function buildSidebarUi() {
   console.log("\nBuilding Sidebar UI…");
   const guiDir = path.resolve(projectRoot, "continue/gui/");
@@ -450,6 +464,7 @@ async function main() {
   await fs.mkdir("build", { recursive: true });
   await purgePackageAssets();
   await buildConfigYaml();
+  await buildPackages();
   await buildSidebarUi();
   await copyPackageAssets(target);
   await runVsce(isSnapshot, target);
