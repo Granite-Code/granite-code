@@ -27,7 +27,7 @@ export function activate(context: vscode.ExtensionContext) {
           vscode.commands.executeCommand("granite.viewLogs");
         } else if (selection === "Retry") {
           // Reload VS Code window
-          vcode.commands.executeCommand("workbench.action.reloadWindow");
+          vscode.commands.executeCommand("workbench.action.reloadWindow");
         }
       });
   });
