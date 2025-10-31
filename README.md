@@ -1,5 +1,7 @@
 # Granite.Code
 
+> **❗IMPORTANT**: Granite.Code has been deprecated in favor of [Continue](https://marketplace.visualstudio.com/items?itemName=Continue.continue). Many of our fixes related to Granite model usage have been contributed upstream to Continue.
+
 Granite.Code is a project by Red Hat and IBM
 to create an open-source AI code assistant
 using the IBM Granite model family,
