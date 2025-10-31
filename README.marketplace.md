@@ -1,5 +1,7 @@
 # Granite.Code
 
+> **❗IMPORTANT**: Granite.Code has been deprecated in favor of [Continue](https://marketplace.visualstudio.com/items?itemName=Continue.continue). Many of our fixes related to Granite model usage have been contributed upstream to Continue.
+
 Granite.Code is an open-source AI code assistant
 using the [IBM Granite model family](https://www.ibm.com/granite).
 The models running locally on your system.
